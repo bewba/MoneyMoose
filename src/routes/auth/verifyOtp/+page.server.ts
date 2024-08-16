@@ -31,5 +31,7 @@ export const actions: Actions = {
     } catch (error) { 
       console.log(error) 
     }
+
+    //TODO: Redirect user to private dashboard page
   }
 }

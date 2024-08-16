@@ -17,16 +17,17 @@ export const actions: Actions = {
     } catch (error) {
       console.log(error)
     }
-
+    console.log(myEmail[0].email)
+    console.log(otp)
+    console.log("nigga  ")
     try {
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.verifyOtp({
+      const { data: { session }, error,
+} = await supabase.auth.verifyOtp({
         email: myEmail[0].email,
         token: otp,
         type: 'email',
       })
+      console.log(session,error)
     } catch (error) { 
       console.log(error) 
     }

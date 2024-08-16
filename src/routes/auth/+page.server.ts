@@ -9,7 +9,7 @@ export const actions: Actions = {
     let myEmail = null
     const formData = await request.formData()
     const email = formData.get('email') as string
-
+    let iserr = null
     try {
       const unsub = currEmail.subscribe( data => {
         myEmail = data
@@ -24,7 +24,6 @@ export const actions: Actions = {
     }
    
     try{
-    console.log("nigger")
     console.log(email)
     const { data, error } = await supabase.auth.signInWithOtp({
         email: email,
@@ -34,14 +33,22 @@ export const actions: Actions = {
         },
       });
       console.log("verfity OTP")
-      throw redirect(303,"/auth/verifyOtp/")
+      iserr = error
     } catch (error){
       console.log("error")
       console.log(error)
-      throw redirect(303, "/auth/signup/")
+    }
+
+    if (iserr){
+      console.log(iserr)
+      redirect(303, "/auth/signup/")
+    } else {
+      console.log("success")
+      redirect(303, "/auth/verifyOtp/")
+      
     }
     
-    console.log (data,error)
+
     // if (supabase.)
     
   }

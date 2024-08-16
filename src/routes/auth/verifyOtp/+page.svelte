@@ -8,7 +8,7 @@
 		<form method="POST" action="?/login">
 			<label>
 				OTP
-				<input name="otp" type="email" />
+				<input name="otp" type="number" />
 			</label>
 			<button formaction="?/login">Verify OTP</button>
 		</form>

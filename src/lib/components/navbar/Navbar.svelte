@@ -14,6 +14,6 @@
     <NavLi href="/about">About</NavLi>
     <NavLi href="/docs/components/navbar">Navbar</NavLi>
     <NavLi href="/pricing">Pricing</NavLi>
-    <NavLi href="/contact">Login</NavLi>
+    <NavLi href="/auth">Login</NavLi>
   </NavUl>
 </Navbar>

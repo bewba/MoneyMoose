@@ -2,11 +2,6 @@
     import Navbar from "$lib/components/navbar/LoggedInNavbar.svelte";
     import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
 
-    const menuItems = [
-        { label: 'Dashboard', href: '/dashboard' },
-        { label: 'Profile', href: '/profile' },
-        { label: 'Settings', href: '/settings' },
-    ];
 </script>
 
 <html class="dark" lang="en">
@@ -14,7 +9,7 @@
         <Navbar />
         <div class="flex h-screen">
             <!-- Sidebar that appears on larger screens -->
-            <Sidebar {menuItems} />
+            <Sidebar/>
 
             <!-- Main content area takes up the remaining space -->
             <main class="p-8 flex-grow">

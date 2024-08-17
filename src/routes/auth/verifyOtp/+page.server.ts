@@ -8,6 +8,7 @@ export const actions: Actions = {
   login: async ({ request, locals: { supabase } }) => {
     const formData = await request.formData()
     const otp = formData.get('otp') as string
+    let iserr = null
     let myEmail = null
     try {
       let unsub = storedEmail.subscribe(data => {
@@ -22,16 +23,21 @@ export const actions: Actions = {
     console.log("nigga  ")
     try {
       const { data: { session }, error,
-} = await supabase.auth.verifyOtp({
+      } = await supabase.auth.verifyOtp({
         email: myEmail[0].email,
         token: otp,
         type: 'email',
       })
-      console.log(session,error)
-    } catch (error) { 
-      console.log(error) 
+      console.log(session, error)
+    } catch (error) {
+      console.log(error)
     }
 
     //TODO: Redirect user to private dashboard page
+    if (iserr) {
+      redirect(303, "../error/")
+    } else {
+      redirect(303, "../../private/")
+    }
   }
 }

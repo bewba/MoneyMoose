@@ -1,20 +1,16 @@
 <script>
-    import Navbar from "$lib/components/navbar/LoggedInNavbar.svelte";
-    import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
-
+    import LoggedInNavbar from "$lib/components/navbar/LoggedInNavbar.svelte";
+    import Sidebar from "$lib/components/sidebar/Sidebar.svelte";
 </script>
 
-<html class="dark" lang="en">
-    <body class="bg-gray-100 dark:bg-gray-800 min-h-screen">
-        <Navbar />
+  <LoggedInNavbar />
+  <Sidebar />
+  
+  <div class="p-4 sm:ml-64 dark:bg-gray-900 bg-gray-200">
+     <div class="p-4 rounded-lg mt-14">
         <div class="flex h-screen">
-            <!-- Sidebar that appears on larger screens -->
-            <Sidebar/>
-
-            <!-- Main content area takes up the remaining space -->
-            <main class="p-8 flex-grow">
-                <!-- Your main content goes here -->
-            </main>
+           
         </div>
-    </body>
-</html>
+     </div>
+  </div>
+  

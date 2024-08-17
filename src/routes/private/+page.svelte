@@ -1,40 +1,25 @@
-<script lang="ts">
-	import { invalidate } from '$app/navigation';
-	import type { EventHandler } from 'svelte/elements';
+<script>
+    import Navbar from "$lib/components/navbar/LoggedInNavbar.svelte";
+    import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
 
-	import type { PageData } from './$types';
-
-	export let data: PageData;
-	$: ({ notes, supabase, user } = data);
-
-	let handleSubmit: EventHandler<SubmitEvent, HTMLFormElement>;
-	$: handleSubmit = async (evt) => {
-		evt.preventDefault();
-		if (!evt.target) return;
-
-		const form = evt.target as HTMLFormElement;
-
-		const note = (new FormData(form).get('note') ?? '') as string;
-		if (!note) return;
-
-		const { error } = await supabase.from('notes').insert({ note });
-		if (error) console.error(error);
-
-		invalidate('supabase:db:notes');
-		form.reset();
-	};
+    const menuItems = [
+        { label: 'Dashboard', href: '/dashboard' },
+        { label: 'Profile', href: '/profile' },
+        { label: 'Settings', href: '/settings' },
+    ];
 </script>
 
-<h1>Private page for user: {user?.email}</h1>
-<h2>Notes</h2>
-<ul>
-	{#each notes as note}
-		<li>{note.note}</li>
-	{/each}
-</ul>
-<form on:submit={handleSubmit}>
-	<label>
-		Add a note
-		<input name="note" type="text" />
-	</label>
-</form>
+<html class="dark" lang="en">
+    <body class="bg-gray-100 dark:bg-gray-800 min-h-screen">
+        <Navbar />
+        <div class="flex h-screen">
+            <!-- Sidebar that appears on larger screens -->
+            <Sidebar {menuItems} />
+
+            <!-- Main content area takes up the remaining space -->
+            <main class="p-8 flex-grow">
+                <!-- Your main content goes here -->
+            </main>
+        </div>
+    </body>
+</html>

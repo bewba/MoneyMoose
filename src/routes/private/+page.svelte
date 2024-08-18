@@ -1,8 +1,15 @@
 <script>
 	import LoggedInNavbar from '$lib/components/navbar/LoggedInNavbar.svelte';
 	import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
-
+	import Moneyin from "./moneyin/moneyin.svelte"
+    import { isMoneyInOverlayOpen } from './store/Popupstore';
 	export let data;
+
+	let isMoneyOpen = false
+	let unsub1 = isMoneyInOverlayOpen.subscribe(someVal1 => {
+		isMoneyOpen = someVal1
+	})
+	
 
 	let values = data.data;
 	let totalValue = 0;
@@ -36,6 +43,9 @@
 			<div class="text-4xl font-bold text-gray-900 dark:text-white">
 				₱ {totalValue.toLocaleString('en-PH', { minimumFractionDigits: 2 })}
 			</div>
+			{#if isMoneyOpen}
+				<Moneyin />
+			{/if}
 		</div>
 	</div>
 </div>

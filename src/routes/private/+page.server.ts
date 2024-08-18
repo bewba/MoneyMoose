@@ -7,8 +7,5 @@ export const load = async ({ locals }) => {
 		console.log(error)
 		return { success: false, users: null }
 	}
-	console.log("hello")
-	console.log(transactions)
-	console.log(error)
-	return { success: true, transactions}
+	return { success: true, data: transactions ?? 0}
 };

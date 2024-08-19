@@ -22,7 +22,7 @@
 <div class="fixed top-12     left-0 w-full h-full bg-black bg-opacity-75 z-50" on:click={close}>
     <div class="max-w-md mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" on:click|stopPropagation>
         <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Money In</h2>
-        <form on:submit={onSubmit} method="post" class="space-y-4">
+        <form action="?/moneyin" method="POST" class="space-y-4">
             
             <!-- Amount -->
             <div class="flex flex-col">
@@ -38,7 +38,9 @@
 
             <!-- Buttons -->
             <div class="flex justify-between">
-                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-blue-700 dark:hover:bg-blue-800">
+                <button 
+                    formaction="?/moneyin" 
+                    class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-blue-700 dark:hover:bg-blue-800">
                     Submit
                 </button>
                 <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-400" on:click={close}>

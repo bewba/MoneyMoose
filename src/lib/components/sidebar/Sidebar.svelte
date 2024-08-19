@@ -5,7 +5,6 @@
 
    const isMoneyInOverlayOpenFun = () => {
       const unsub = isMoneyInOverlayOpen.subscribe(data => {})
-      console.log("nigga")
       isMoneyInOverlayOpen.set(true)
       unsub()
    }

@@ -33,7 +33,6 @@
 		}
 	} catch (error) {
 		totalValue = 0;
-		console.log(error);
 	}
 
 </script>

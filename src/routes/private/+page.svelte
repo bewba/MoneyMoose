@@ -8,7 +8,7 @@
 
 	let isMoneyInOpen = false
 	let isMoneyOutOpen = false
-	console.log(data.data)
+
 	let unsub1 = isMoneyInOverlayOpen.subscribe(someVal1 => {
 		isMoneyInOpen = someVal1
 	})
@@ -35,7 +35,7 @@
 		totalValue = 0;
 		console.log(error);
 	}
-	console.log(totalValue);
+
 </script>
 
 <LoggedInNavbar />

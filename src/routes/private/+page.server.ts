@@ -17,11 +17,11 @@ export const actions: Actions = {
 
 			if (allocation) {
 				const { error } = await supabase
-					.from('moneyIn')
+					.from('moneyOut')
 					.insert({ userId: uuid, amount: amount, allocation: allocation, category: category })
 			} else {
 				const { error } = await supabase
-					.from('moneyIn')
+					.from('moneyOut')
 					.insert({ userId: uuid, amount: amount, category: category })
 			}
 
@@ -32,16 +32,16 @@ export const actions: Actions = {
 	},
 	moneyout: async ({ request, locals: { supabase } }) => {
 		try {
-
+			console.log("jimal")
 			const user = await supabase.auth.getUser()
 			let uuid = user.data.user.id
-
+			console.log(uuid)
 			const formData = await request.formData()
 			let amount = formData.get('amount')
 			let category = formData.get('category')
 			let subcategory = formData.get('subcategory')
 			let allocation = formData.get('allocation')
-
+			console.log(amount,category,subcategory,allocation)
 			try{
 				allocation = allocation.trim()
 			}catch(error){}
@@ -49,7 +49,7 @@ export const actions: Actions = {
 			if (category == 'Expenses') {
 				if(allocation){
 					const{ error } = await supabase
-					.from('moneyout')
+					.from('moneyOut')
 					.insert({ user: uuid, 
 						amount: amount,
 						category: category, 
@@ -58,7 +58,7 @@ export const actions: Actions = {
 					})
 				} else {
 					const{ error } = await supabase
-					.from('moneyout')
+					.from('moneyOut')
 					.insert({ 
 						user: uuid, 
 						amount: amount,
@@ -69,7 +69,7 @@ export const actions: Actions = {
 			} else {
 				if (allocation) {
 					const{ error } = await supabase
-					.from('moneyout')
+					.from('moneyOut')
 					.insert({ 
 						user: uuid, 
 						amount: amount,
@@ -78,7 +78,7 @@ export const actions: Actions = {
 					})
 				} else {
 					const{ error } = await supabase
-					.from('moneyout')
+					.from('moneyOut')
 					.insert({ 
 						user: uuid, 
 						amount: amount,

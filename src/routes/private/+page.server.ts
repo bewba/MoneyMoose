@@ -8,18 +8,21 @@ export const actions: Actions = {
 			let allocation = formData.get('allocation')
 			let category = formData.get('category')
 
-			allocation = allocation.trim()
+			try {
+				allocation = allocation.trim()
+			} catch (error) { }
+
 			const user = await supabase.auth.getUser()
 			let uuid = user.data.user.id
 
 			if (allocation) {
 				const { error } = await supabase
 					.from('moneyIn')
-					.insert({ userId: uuid, amount: amount, allocation: allocation, category: category})
+					.insert({ userId: uuid, amount: amount, allocation: allocation, category: category })
 			} else {
 				const { error } = await supabase
-				.from('moneyIn')
-				.insert({ userId: uuid, amount: amount, category: category})
+					.from('moneyIn')
+					.insert({ userId: uuid, amount: amount, category: category })
 			}
 
 
@@ -28,7 +31,64 @@ export const actions: Actions = {
 		}
 	},
 	moneyout: async ({ request, locals: { supabase } }) => {
-		
+		try {
+
+			const user = await supabase.auth.getUser()
+			let uuid = user.data.user.id
+
+			const formData = await request.formData()
+			let amount = formData.get('amount')
+			let category = formData.get('category')
+			let subcategory = formData.get('subcategory')
+			let allocation = formData.get('allocation')
+
+			try{
+				allocation = allocation.trim()
+			}catch(error){}
+
+			if (category == 'Expenses') {
+				if(allocation){
+					const{ error } = await supabase
+					.from('moneyout')
+					.insert({ user: uuid, 
+						amount: amount,
+						category: category, 
+						subcategory: subcategory,
+						allocation: allocation
+					})
+				} else {
+					const{ error } = await supabase
+					.from('moneyout')
+					.insert({ 
+						user: uuid, 
+						amount: amount,
+						category: category,
+						subcategory: subcategory
+					})
+				}
+			} else {
+				if (allocation) {
+					const{ error } = await supabase
+					.from('moneyout')
+					.insert({ 
+						user: uuid, 
+						amount: amount,
+						category: category, 
+						allocation: allocation
+					})
+				} else {
+					const{ error } = await supabase
+					.from('moneyout')
+					.insert({ 
+						user: uuid, 
+						amount: amount,
+						category: category, 
+					})
+				}
+			}
+		} catch (error) {
+			console.log(error)
+		}
 	}
 }
 

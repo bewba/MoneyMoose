@@ -2,29 +2,34 @@
 	import LoggedInNavbar from '$lib/components/navbar/LoggedInNavbar.svelte';
 	import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
 	import Moneyin from "./moneyin/moneyin.svelte"
-    import { isMoneyInOverlayOpen } from './store/Popupstore';
+	import Moneyout from './moneyout/moneyout.svelte';
+    import { isMoneyInOverlayOpen, isMoneyOutOverlayOpen } from './store/Popupstore';
 	export let data;
 
-	let isMoneyOpen = false
+	let isMoneyInOpen = false
+	let isMoneyOutOpen = false
+	console.log(data.data)
 	let unsub1 = isMoneyInOverlayOpen.subscribe(someVal1 => {
-		isMoneyOpen = someVal1
+		isMoneyInOpen = someVal1
 	})
 	
+	let unsub2 = isMoneyOutOverlayOpen.subscribe(someVal2 => {
+		isMoneyOutOpen = someVal2
+	})
 
-	let values = data.data;
+	
+	
 	let totalValue = 0;
 
 	try {
-		if (values.length == 0) {
-			totalValue = 0;
-		} else {
-			values.forEach((element) => {
-				if (element.type == 0) {
-					totalValue += element.amount;
-				} else {
-					totalValue -= element.amount;
-				}
-			});
+		let moneyIn = data.data[0];
+		let moneyOut = data.data[1]
+		for (let i = 0; i < moneyIn.length; i+= 1){
+			totalValue += moneyIn[i].amount
+		}
+
+		for (let i = 0; i < moneyOut.length; i+= 1){
+			totalValue -= moneyOut[i].amount
 		}
 	} catch (error) {
 		totalValue = 0;
@@ -43,8 +48,12 @@
 			<div class="text-4xl font-bold text-gray-900 dark:text-white">
 				₱ {totalValue.toLocaleString('en-PH', { minimumFractionDigits: 2 })}
 			</div>
-			{#if isMoneyOpen}
+			{#if isMoneyInOpen}
 				<Moneyin />
+			{/if}
+			
+			{#if isMoneyOutOpen}
+				<Moneyout />
 			{/if}
 		</div>
 	</div>

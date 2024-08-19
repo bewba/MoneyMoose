@@ -17,16 +17,18 @@ export const actions: Actions = {
 
 			if (allocation) {
 				const { error } = await supabase
-					.from('moneyOut')
+					.from('moneyIn')
 					.insert({ userId: uuid, amount: amount, allocation: allocation, category: category })
 			} else {
 				const { error } = await supabase
-					.from('moneyOut')
+					.from('moneyIn')
 					.insert({ userId: uuid, amount: amount, category: category })
 			}
 
 
-		} catch (error) {}
+		} catch (error) {
+			console.log(error)
+		}
 	},
 	moneyout: async ({ request, locals: { supabase } }) => {
 		try {
@@ -90,14 +92,19 @@ export const actions: Actions = {
 
 
 export const load = async ({ locals }) => {
+	const user = await locals.supabase.auth.getUser()
+		let uuid = user.data.user.id
+		console.log(uuid)
+
 	const { data: moneyIn, error: error1 } = await locals.supabase
 		.from("moneyIn")
 		.select()
+		.eq('userId', uuid)
 
 	const { data: moneyOut, error: error2 } = await locals.supabase
 		.from('moneyOut')
 		.select()
-
+		.eq('user', uuid)
 	if (error1 || error2) {
 		return { success: false, users: null }
 	}

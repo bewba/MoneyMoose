@@ -20,7 +20,7 @@ export const actions: Actions = {
     }
     console.log(myEmail[0].email)
     console.log(otp)
-    console.log("nigga  ")
+   
     try {
       const { data: { session }, error,
       } = await supabase.auth.verifyOtp({

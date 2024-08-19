@@ -6,8 +6,8 @@ ie: Tracking how much money goes in and out, and basic login
 <h2>Future updates</h2>
 
 <h3> MoneyMoose is currently looking to incorporate the following features:</h3>
-Setting budgets
-Tracking weekly and monthly expenses
-Graphing the weekly and monthly budget allocation
-Personalization
-And more to come
+Setting budgets<br>
+Tracking weekly and monthly expenses<br>
+Graphing the weekly and monthly budget allocation<br>
+Personalization<br>
+And more to come<br>

@@ -35,15 +35,12 @@ export const actions: Actions = {
       console.log("verfity OTP")
       iserr = error
     } catch (error){
-      console.log("error")
       console.log(error)
     }
 
     if (iserr){
-      console.log(iserr)
       redirect(303, "/auth/signup/")
     } else {
-      console.log("success")
       redirect(303, "/auth/verifyOtp/")
       
     }

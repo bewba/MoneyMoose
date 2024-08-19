@@ -15,11 +15,7 @@ export const actions: Actions = {
         myEmail = data
       })
 
-    } catch (error) {
-      console.log(error)
-    }
-    console.log(myEmail[0].email)
-    console.log(otp)
+    } catch (error) {}
    
     try {
       const { data: { session }, error,
@@ -28,10 +24,7 @@ export const actions: Actions = {
         token: otp,
         type: 'email',
       })
-      console.log(session, error)
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
 
     //TODO: Redirect user to private dashboard page
     if (iserr) {

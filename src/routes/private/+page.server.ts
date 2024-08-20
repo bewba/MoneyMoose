@@ -10,6 +10,8 @@ export const actions: Actions = {
 			let allocation = formData.get('allocation')
 			let category = formData.get('category')
 
+			if (amount > 0){
+
 			try {
 				allocation = allocation.trim()
 			} catch (error) { }
@@ -26,7 +28,7 @@ export const actions: Actions = {
 					.from('moneyIn')
 					.insert({ userId: uuid, amount: amount, category: category })
 			}
-
+		}
 
 		} catch (error) {
 			console.log(error)
@@ -43,6 +45,8 @@ export const actions: Actions = {
 			let category = formData.get('category')
 			let subcategory = formData.get('subcategory')
 			let allocation = formData.get('allocation')
+
+			if (amount > 0){
 
 			try{
 				allocation = allocation.trim()
@@ -88,6 +92,7 @@ export const actions: Actions = {
 					})
 				}
 			}
+		}
 		} catch (error) {}
 	}
 }

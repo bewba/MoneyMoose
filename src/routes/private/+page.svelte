@@ -4,7 +4,8 @@
 	import { onMount } from 'svelte';
 	import Moneyin from './moneyin/moneyin.svelte';
 	import Moneyout from './moneyout/moneyout.svelte';
-	import Chart from './piechart/Chart.svelte';
+	import Chart from './piechart/ExpenseChart.svelte';
+	import IncomeChart from './piechart/IncomeChart.svelte';
 	import { isMoneyInOverlayOpen, isMoneyOutOverlayOpen } from './store/Popupstore';
 	
 	// @ts-ignore
@@ -24,21 +25,22 @@
 	});
 
 	let totalValue = 0;
-
+	let income = 0;
+	let expense = 0;
 	try {
 		// @ts-ignore
 		let moneyIn = data.data[0];
 		// @ts-ignore
 		let moneyOut = data.data[1];
 		for (let i = 0; i < moneyIn.length; i += 1) {
-			totalValue += moneyIn[i].amount;
+			moneyIn += moneyIn[i].amount;
 		}
 
 		for (let i = 0; i < moneyOut.length; i += 1) {
 			totalValue -= moneyOut[i].amount;
 		}
 	} catch (error) {
-		totalValue = 0;
+		totalValue = income - expense;
 	}
 </script>
 
@@ -61,7 +63,14 @@
 			{/if}
 		</div>
 	</div>
-	<div class="p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14">
-		<Chart expenseData={data.data[1]}/>
+	{#if income > 0 && expense > 0}
+	<div class="p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex">
+		{#if income > 0}
+			<IncomeChart incomeData={data.data[0]}/>
+		{/if}
+		{#if expense > 0}
+			<Chart expenseData={data.data[1]}/>
+		{/if}
 	</div>
+	{/if}
 </div>

@@ -7,52 +7,56 @@
 
 	// @ts-ignore
 	// @ts-ignore
-	const colorScheme = [
-		'#25CCF7',
-		'#FD7272',
-		'#54a0ff',
-		'#00d2d3',
-		'#1abc9c',
-		'#2ecc71',
-		'#3498db',
-		'#9b59b6',
-		'#34495e',
-		'#16a085',
-		'#27ae60',
-		'#2980b9',
-		'#8e44ad',
-		'#2c3e50',
-		'#f1c40f',
-		'#e67e22',
-		'#e74c3c',
-		'#ecf0f1',
-		'#95a5a6',
-		'#f39c12',
-		'#d35400',
-		'#c0392b',
-		'#bdc3c7',
-		'#7f8c8d',
-		'#55efc4',
-		'#81ecec',
-		'#74b9ff',
-		'#a29bfe',
-		'#dfe6e9',
-		'#00b894',
-		'#00cec9',
-		'#0984e3',
-		'#6c5ce7',
-		'#ffeaa7',
-		'#fab1a0',
-		'#ff7675',
-		'#fd79a8',
-		'#fdcb6e',
-		'#e17055',
-		'#d63031',
-		'#feca57',
-		'#5f27cd',
-		'#54a0ff',
-		'#01a3a4'
-	];
+
+const colorScheme = [
+  '#87CEEB', // Sky Blue
+  '#FF7F50', // Coral
+  '#90EE90', // Light Green
+  '#FFD700', // Gold
+  '#DA70D6', // Orchid
+  '#FF6347', // Tomato
+  '#FFB6C1', // Light Pink
+  '#48D1CC', // Medium Turquoise
+  '#B0C4DE', // Light Steel Blue
+  '#F0E68C', // Khaki
+  '#FA8072', // Salmon
+  '#D87093', // Pale Violet Red
+  '#7B68EE', // Medium Slate Blue
+  '#FAFAD2', // Light Goldenrod Yellow
+  '#E6E6FA', // Lavender
+  '#F5DEB3', // Wheat
+  '#CD853F', // Peru
+  '#708090', // Slate Gray
+  '#9932CC', // Dark Orchid
+  '#DC143C'  // Crimson
+];
+
+// Array of 20 hover effect colors for the pie chart
+const hoverColors = [
+  '#00BFFF', // Hover for Sky Blue
+  '#FF6347', // Hover for Coral
+  '#32CD32', // Hover for Light Green
+  '#FFA500', // Hover for Gold
+  '#DDA0DD', // Hover for Orchid
+  '#FF4500', // Hover for Tomato
+  '#FF69B4', // Hover for Light Pink
+  '#40E0D0', // Hover for Medium Turquoise
+  '#4682B4', // Hover for Light Steel Blue
+  '#BDB76B', // Hover for Khaki
+  '#E9967A', // Hover for Salmon
+  '#C71585', // Hover for Pale Violet Red
+  '#6A5ACD', // Hover for Medium Slate Blue
+  '#F5DEB3', // Hover for Light Goldenrod Yellow
+  '#D8BFD8', // Hover for Lavender
+  '#DEB887', // Hover for Wheat
+  '#D2691E', // Hover for Peru
+  '#2F4F4F', // Hover for Slate Gray
+  '#8A2BE2', // Hover for Dark Orchid
+  '#B22222'  // Hover for Crimson
+];
+
+
+
 
 	// @ts-ignore
 	// @ts-ignore
@@ -63,7 +67,7 @@
 	expenseData.forEach((element) => {
 		
 		if (!(element.category in pieChartData)) {
-			if (element.category == 'Expense') {
+			if (element.category == 'Expenses') {
 				if (!(element.subcategory in pieChartData)) {
           // @ts-ignore
           pieChartData[element.subcategory] = 0
@@ -77,7 +81,7 @@
 		}
 
 		// @ts-ignore
-		if (element.category == 'Expense') {
+		if (element.category == 'Expenses') {
 			// @ts-ignore
 			pieChartData[element.subcategory] += element.amount;
 		} else {
@@ -85,8 +89,16 @@
 			pieChartData[element.category] += element.amount;
 		}
 	});
+  let labels = []
+  let amounts = []
+  for (const [label, amount] of Object.entries(pieChartData)) {
+    labels.push(label)
+    amounts.push(amount)
+  }
 
-	console.log(pieChartData, category_count);
+
+
+	
 
 	// @ts-ignore
 	let isDarkMode;
@@ -108,15 +120,17 @@
 		return () => observer.disconnect();
 	});
 
+
+
 	ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
 
 	const data = {
-		labels: ['Red', 'Green', 'Yellow', 'Grey', 'Dark Grey'],
+		labels: labels,
 		datasets: [
 			{
-				data: [300, 50, 100, 40, 120],
-				backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360', '#AC64AD'],
-				hoverBackgroundColor: ['#FF5A5E', '#5AD3D1', '#FFC870', '#A8B3C5', '#616774', '#DA92DB']
+				data: amounts,
+				backgroundColor: colorScheme.slice(0, 5),
+				hoverBackgroundColor: hoverColors.slice(0, 5)
 			}
 		]
 	};
@@ -134,7 +148,7 @@
 				color: '#333'
 			},
 			legend: {
-				position: 'bottom',
+				position: 'right',
 				labels: {
 					color: '#333'
 				}
@@ -155,7 +169,7 @@
 				color: '#FFF'
 			},
 			legend: {
-				position: 'bottom',
+				position: 'right',
 				labels: {
 					color: '#FFF'
 				}

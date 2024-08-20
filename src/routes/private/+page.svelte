@@ -10,7 +10,7 @@
 	
 	// @ts-ignore
 	export let data;
-	console.log(data)
+	
 	let isMoneyInOpen = false;
 	let isMoneyOutOpen = false;
 

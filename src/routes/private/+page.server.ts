@@ -10,23 +10,25 @@ export const actions: Actions = {
 			let allocation = formData.get('allocation')
 			let category = formData.get('category')
 
-			try {
-				allocation = allocation.trim()
-			} catch (error) { }
+			if (amount > 0) {
 
-			const user = await supabase.auth.getUser()
-			let uuid = user.data.user.id
+				try {
+					allocation = allocation.trim()
+				} catch (error) { }
 
-			if (allocation) {
-				const { error } = await supabase
-					.from('moneyIn')
-					.insert({ userId: uuid, amount: amount, allocation: allocation, category: category })
-			} else {
-				const { error } = await supabase
-					.from('moneyIn')
-					.insert({ userId: uuid, amount: amount, category: category })
+				const user = await supabase.auth.getUser()
+				let uuid = user.data.user.id
+
+				if (allocation) {
+					const { error } = await supabase
+						.from('moneyIn')
+						.insert({ userId: uuid, amount: amount, allocation: allocation, category: category })
+				} else {
+					const { error } = await supabase
+						.from('moneyIn')
+						.insert({ userId: uuid, amount: amount, category: category })
+				}
 			}
-		
 
 		} catch (error) {
 			console.log(error)
@@ -34,7 +36,7 @@ export const actions: Actions = {
 	},
 	moneyout: async ({ request, locals: { supabase } }) => {
 		try {
-	
+
 			const user = await supabase.auth.getUser()
 			let uuid = user.data.user.id
 
@@ -44,60 +46,65 @@ export const actions: Actions = {
 			let subcategory = formData.get('subcategory')
 			let allocation = formData.get('allocation')
 
+			if (amount > 0) {
 
-			try{
-				allocation = allocation.trim()
-			}catch(error){}
 
-			if (category == 'Expenses') {
-				if(allocation){
-					const{ error } = await supabase
-					.from('moneyOut')
-					.insert({ user: uuid, 
-						amount: amount,
-						category: category, 
-						subcategory: subcategory,
-						allocation: allocation
-					})
+
+				try {
+					allocation = allocation.trim()
+				} catch (error) { }
+
+				if (category == 'Expenses') {
+					if (allocation) {
+						const { error } = await supabase
+							.from('moneyOut')
+							.insert({
+								user: uuid,
+								amount: amount,
+								category: category,
+								subcategory: subcategory,
+								allocation: allocation
+							})
+					} else {
+						const { error } = await supabase
+							.from('moneyOut')
+							.insert({
+								user: uuid,
+								amount: amount,
+								category: category,
+								subcategory: subcategory
+							})
+					}
 				} else {
-					const{ error } = await supabase
-					.from('moneyOut')
-					.insert({ 
-						user: uuid, 
-						amount: amount,
-						category: category,
-						subcategory: subcategory
-					})
-				}
-			} else {
-				if (allocation) {
-					const{ error } = await supabase
-					.from('moneyOut')
-					.insert({ 
-						user: uuid, 
-						amount: amount,
-						category: category, 
-						allocation: allocation
-					})
-				} else {
-					const{ error } = await supabase
-					.from('moneyOut')
-					.insert({ 
-						user: uuid, 
-						amount: amount,
-						category: category, 
-					})
+					if (allocation) {
+						const { error } = await supabase
+							.from('moneyOut')
+							.insert({
+								user: uuid,
+								amount: amount,
+								category: category,
+								allocation: allocation
+							})
+					} else {
+						const { error } = await supabase
+							.from('moneyOut')
+							.insert({
+								user: uuid,
+								amount: amount,
+								category: category,
+							})
+					}
 				}
 			}
-		} catch (error) {}
+		} catch (error) { }
 	}
 }
 
 
 export const load = async ({ locals }) => {
 	const user = await locals.supabase.auth.getUser()
-		let uuid = user.data.user.id
-		console.log(uuid)
+	let uuid = user.data.user.id
+	console.log(uuid)
 
 	const { data: moneyIn, error: error1 } = await locals.supabase
 		.from("moneyIn")

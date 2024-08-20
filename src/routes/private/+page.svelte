@@ -10,7 +10,7 @@
 	
 	// @ts-ignore
 	export let data;
-
+	console.log(data)
 	let isMoneyInOpen = false;
 	let isMoneyOutOpen = false;
 
@@ -33,15 +33,16 @@
 		// @ts-ignore
 		let moneyOut = data.data[1];
 		for (let i = 0; i < moneyIn.length; i += 1) {
-			moneyIn += moneyIn[i].amount;
+			income += moneyIn[i].amount;
 		}
 
 		for (let i = 0; i < moneyOut.length; i += 1) {
-			totalValue -= moneyOut[i].amount;
+			expense += moneyOut[i].amount;
 		}
 	} catch (error) {
-		totalValue = income - expense;
+		
 	}
+	totalValue = income - expense;
 </script>
 
 <LoggedInNavbar />
@@ -63,7 +64,7 @@
 			{/if}
 		</div>
 	</div>
-	{#if income > 0 && expense > 0}
+	{#if income > 0 || expense > 0}
 	<div class="p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex">
 		{#if income > 0}
 			<IncomeChart incomeData={data.data[0]}/>

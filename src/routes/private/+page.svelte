@@ -4,9 +4,9 @@
 	import { onMount } from 'svelte';
 	import Moneyin from './moneyin/moneyin.svelte';
 	import Moneyout from './moneyout/moneyout.svelte';
-	import Chart from './piechart/ChartLight.svelte';
+	import Chart from './piechart/Chart.svelte';
 	import { isMoneyInOverlayOpen, isMoneyOutOverlayOpen } from './store/Popupstore';
-	import { browser } from '$app/environment';
+	
 	// @ts-ignore
 	export let data;
 
@@ -22,7 +22,6 @@
 	let unsub2 = isMoneyOutOverlayOpen.subscribe((someVal2) => {
 		isMoneyOutOpen = someVal2;
 	});
-
 
 	let totalValue = 0;
 
@@ -63,6 +62,6 @@
 		</div>
 	</div>
 	<div class="p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14">
-		<Chart />
+		<Chart expenseData={data.data[1]}/>
 	</div>
 </div>

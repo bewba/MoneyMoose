@@ -39,7 +39,7 @@
                     class="border border-gray-300 dark:border-gray-600 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
                     required>
                     <option value="" disabled selected>Select a category</option>
-                    <option value="Income">Income</option>
+                    <option value="Salary">Salary</option>
                     <option value="Investment">Investment</option>
                     <option value= "Side Hustle">Side Hustle</option>
                     <option value="Gift">Gift</option>

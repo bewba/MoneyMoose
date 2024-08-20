@@ -19,7 +19,7 @@
       </div>
       <div class="flex items-center">
           <div class="flex items-center ms-3">
-            <DarkMode class = "mx-2"/>
+              <DarkMode class = "mx-2"/>
             <div>
               <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                 <span class="sr-only">Open user menu</span>

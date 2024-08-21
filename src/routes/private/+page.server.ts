@@ -97,7 +97,25 @@ export const actions: Actions = {
 		} catch (error) { }
 	},
 	setBudget:  async ({ request, locals: { supabase } }) => {
-		
+		const user = await supabase.auth.getUser()
+		let uuid = user.data.user
+
+		const formData = await request.formData()
+		let budgetAmount = formData.get('budgetAmount')
+		let budgetType = formData.get('budgetType')
+		let expenses = formData.get("expenses")
+		let investments = formData.get("investments")
+		let bills = formData.get('bills')
+		let other = formData.get("other")
+
+		console.log(budgetAmount,budgetType,expenses,investments,bills,other)
+
+		const { data } = await supabase
+			.from('users')
+			.upsert({user: uuid, })
+
+
+
 	}
 }
 

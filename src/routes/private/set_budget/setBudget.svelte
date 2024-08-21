@@ -38,6 +38,7 @@
 				<input
 					type="number"
 					id="budgetAmount"
+					name = "budgetAmount"
 					bind:value={totalBudget}
 					class="border border-gray-300 dark:border-gray-600 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
 					required
@@ -51,9 +52,11 @@
 					<input
 						type="radio"
 						id="weekly"
-						value="weekly"
+						name = "budgetType"
+						value=0
 						bind:group={budgetType}
 						class="mr-2 border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+						required
 					/>
 					<label for="weekly" class="text-gray-700 dark:text-gray-300">Weekly</label>
 				</div>
@@ -61,7 +64,8 @@
 					<input
 						type="radio"
 						id="monthly"
-						value="monthly"
+						name="budgetType"
+						value=1
 						bind:group={budgetType}
 						class="mr-2 border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
 					/>
@@ -70,13 +74,15 @@
 			</div>
 
 			<!-- Allocation Sliding Bars -->
+			 
 			<div class="space-y-4">
 				<div class="flex flex-col">
 					<label for="Expenses" class="mb-2 font-medium text-gray-700 dark:text-gray-300"
 						>Expenses :
 						<input
 							type="number"
-							id="budgetAmount"
+							id="expenses"
+							name="expenses"
 							bind:value={expenses}
                             max={totalBudget}
 							class="border border-gray-300 dark:border-gray-600 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
@@ -85,7 +91,7 @@
 					</label>
 					<input
 						type="range"
-						id="expenses"
+						id="expenses-range"
 						min="0"
 						max={totalBudget}
 						bind:value={expenses}
@@ -95,11 +101,21 @@
 
 				<div class="flex flex-col">
 					<label for="Investments" class="mb-2 font-medium text-gray-700 dark:text-gray-300"
-						>Investment: {investments}</label
+						>Investment: 
+						<input
+							type="number"
+							id="investments"
+							name="investments"
+							bind:value={investments}
+                            max={totalBudget}
+							class="border border-gray-300 dark:border-gray-600 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
+							required
+						/>
+						</label
 					>
 					<input
 						type="range"
-						id="investments"
+						id="investments-range"
 						min="0"
 						max={totalBudget}
 						bind:value={investments}
@@ -109,11 +125,21 @@
 
 				<div class="flex flex-col">
 					<label for="Bills" class="mb-2 font-medium text-gray-700 dark:text-gray-300"
-						>Bills: {bills}</label
+						>Bills: 
+						<input
+							type="number"
+							name="bills"
+							id="budgetAmount"
+							bind:value={bills}
+                            max={totalBudget}
+							class="border border-gray-300 dark:border-gray-600 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
+							required
+						/>
+						</label
 					>
 					<input
 						type="range"
-						id="bills"
+						id="bills-range"
 						min="0"
 						max={totalBudget}
 						bind:value={bills}
@@ -123,11 +149,21 @@
 
 				<div class="flex flex-col">
 					<label for="Other" class="mb-2 font-medium text-gray-700 dark:text-gray-300"
-						>Other: {other}</label
+						>Other: 
+						<input
+							type="number"
+							id="other"
+                    		name="other"
+							bind:value={other}
+                            max={totalBudget}
+							class="border border-gray-300 dark:border-gray-600 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
+							required
+						/>
+						</label
 					>
 					<input
 						type="range"
-						id="other"
+						id="other-range"
 						min="0"
 						max={totalBudget}
 						bind:value={other}

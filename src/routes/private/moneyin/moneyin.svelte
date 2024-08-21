@@ -1,5 +1,4 @@
 <script>
-	import { createEventDispatcher } from "svelte";
     import { isMoneyInOverlayOpen } from "../../private/store/Popupstore";
 
     export let show = true;
@@ -9,13 +8,12 @@
         isMoneyInOverlayOpen.set(false);
         unsub();
     };
-    
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="fixed top-12 left-0 w-full h-full bg-black bg-opacity-75 z-50" on:click={close}>
-    <div class="max-w-md mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" on:click|stopPropagation>
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50" on:click={close}>
+    <div class="max-w-md w-full bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" on:click|stopPropagation>
         <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Money In</h2>
         <form action="?/moneyin" method="POST" class="space-y-4">
             
@@ -41,7 +39,7 @@
                     <option value="" disabled selected>Select a category</option>
                     <option value="Salary">Salary</option>
                     <option value="Investment">Investment</option>
-                    <option value= "Side Hustle">Side Hustle</option>
+                    <option value="Side Hustle">Side Hustle</option>
                     <option value="Gift">Gift</option>
                     <option value="Other">Other</option>
                 </select>
@@ -50,7 +48,7 @@
             <!-- Allocation -->
             <div class="flex flex-col">
                 <label for="allocation" class="mb-2 font-medium text-gray-700 dark:text-gray-300">Allocation:</label>
-                <textarea id="allocation" name="allocation" rows="3" class="border border-gray-300 dark:border-gray-600 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100" ></textarea>
+                <textarea id="allocation" name="allocation" rows="3" class="border border-gray-300 dark:border-gray-600 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"></textarea>
             </div>
 
             <!-- Buttons -->

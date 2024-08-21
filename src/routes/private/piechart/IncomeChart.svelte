@@ -56,8 +56,6 @@ const hoverColors = [
 ];
 
 
-    console.log(incomeData)
-
 	// @ts-ignore
 	// @ts-ignore
 	let category_count = 0;

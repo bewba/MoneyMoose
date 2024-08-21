@@ -6,13 +6,14 @@
 	import Moneyout from './moneyout/moneyout.svelte';
 	import Chart from './piechart/ExpenseChart.svelte';
 	import IncomeChart from './piechart/IncomeChart.svelte';
-	import { isMoneyInOverlayOpen, isMoneyOutOverlayOpen } from './store/Popupstore';
-	
+	import { isMoneyInOverlayOpen, isMoneyOutOverlayOpen, isBudgetAllocationOverlayOpen } from './store/Popupstore';
+	import BudgetAllocation from "./set_budget/setBudget.svelte"
 	// @ts-ignore
 	export let data;
 	
 	let isMoneyInOpen = false;
 	let isMoneyOutOpen = false;
+	let isBudgetAllocationOpen = false;
 
 	// @ts-ignore
 	let unsub1 = isMoneyInOverlayOpen.subscribe((someVal1) => {
@@ -23,6 +24,10 @@
 	let unsub2 = isMoneyOutOverlayOpen.subscribe((someVal2) => {
 		isMoneyOutOpen = someVal2;
 	});
+
+	let unsub3 = isBudgetAllocationOverlayOpen.subscribe((someVal3) => {
+		isBudgetAllocationOpen = someVal3
+	})
 
 	let totalValue = 0;
 	let income = 0;
@@ -61,6 +66,10 @@
 
 			{#if isMoneyOutOpen}
 				<Moneyout />
+			{/if}
+
+			{#if isBudgetAllocationOpen}
+				<BudgetAllocation />
 			{/if}
 		</div>
 	</div>

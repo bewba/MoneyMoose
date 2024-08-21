@@ -1,7 +1,5 @@
 import type { Actions } from "../$types"
 
-
-
 export const actions: Actions = {
 	moneyin: async ({ request, locals: { supabase } }) => {
 		try {
@@ -97,6 +95,9 @@ export const actions: Actions = {
 				}
 			}
 		} catch (error) { }
+	},
+	setBudget:  async ({ request, locals: { supabase } }) => {
+		
 	}
 }
 
@@ -104,7 +105,6 @@ export const actions: Actions = {
 export const load = async ({ locals }) => {
 	const user = await locals.supabase.auth.getUser()
 	let uuid = user.data.user.id
-	console.log(uuid)
 
 	const { data: moneyIn, error: error1 } = await locals.supabase
 		.from("moneyIn")

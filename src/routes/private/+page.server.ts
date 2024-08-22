@@ -1,4 +1,5 @@
 import type { Actions } from "../$types"
+import { startOfWeek, endOfWeek } from "date-fns"
 
 export const actions: Actions = {
 	moneyin: async ({ request, locals: { supabase } }) => {
@@ -136,5 +137,11 @@ export const load = async ({ locals }) => {
 	if (error1 || error2) {
 		return { success: false, users: null }
 	}
+	
+	let day = new Date
+	const start = startOfWeek(day)
+	const end = endOfWeek(day)
+
+	
 	return { success: true, data: [moneyIn, moneyOut] ?? 0 }
 };

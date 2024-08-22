@@ -109,12 +109,9 @@ export const actions: Actions = {
 			let bills = formData.get('bills')
 			let other = formData.get("other")
 
-			console.log(uuid, budgetAmount, budgetType, expenses, investments, bills, other)
-
 			const { data } = await supabase
 				.from('budgetAllocations')
 				.upsert({ user: uuid, budgetAmount: budgetAmount, type: budgetType, expense: expenses, investment: investments, bills: bills, other: other })
-				.select()
 
 		} catch (error) { }
 

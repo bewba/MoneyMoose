@@ -179,12 +179,32 @@
 
 			<!-- Action Buttons -->
 			<div class="flex justify-between">
-				<button
-					formaction="?/setBudget"
-					class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-blue-700 dark:hover:bg-blue-800"
-				>
-					Submit
-				</button>
+				<div>
+					{#if remainingBudget == 0}
+					<button
+						formaction="?/setBudget"
+						class="bg-blue-500 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-600"
+					>
+						Submit
+					</button>
+				{:else}
+					<div class="relative group">
+						<button
+							formaction="?/setBudget"
+							class="bg-gray-400 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out transform cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-gray-300 dark:bg-gray-600 dark:focus:ring-gray-500"
+							disabled
+						>
+							Submit
+						</button>
+						<span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex items-center bg-gray-800 text-white text-xs py-1 px-3 rounded-md shadow-lg opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100 dark:bg-gray-700">
+							<span class="whitespace-nowrap">Remaining Budget Must be 0 to Submit</span>
+						</span>
+					</div>
+				{/if}
+				
+				
+				</div>
+				<div>
 				<button
 					type="button"
 					class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-500"
@@ -192,6 +212,7 @@
 				>
 					Close
 				</button>
+				</div>
 			</div>
 		</form>
 	</div>

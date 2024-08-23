@@ -1,6 +1,6 @@
 <script>
-	import { createEventDispatcher } from "svelte";
-    import { isMoneyOutOverlayOpen } from "../../private/store/Popupstore"
+    import { createEventDispatcher } from "svelte";
+    import { isMoneyOutOverlayOpen } from "../../private/store/Popupstore";
 
     export let show = true;
 
@@ -35,13 +35,12 @@
             subcategories = [];
         }
     };
-
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="fixed top-12 left-0 w-full h-full bg-black bg-opacity-75 z-50" on:click={close}>
-    <div class="max-w-md mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" on:click|stopPropagation>
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50" on:click={close}>
+    <div class="max-w-md w-full bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" on:click|stopPropagation>
         <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Money Out</h2>
         <form action="?/moneyout" method="POST" class="space-y-4">
             

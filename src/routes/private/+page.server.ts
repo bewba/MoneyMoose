@@ -1,6 +1,5 @@
 import type { Actions } from "../$types"
-
-
+import { startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns"
 
 export const actions: Actions = {
 	moneyin: async ({ request, locals: { supabase } }) => {
@@ -97,6 +96,30 @@ export const actions: Actions = {
 				}
 			}
 		} catch (error) { }
+	},
+	setBudget: async ({ request, locals: { supabase } }) => {
+		try {
+			const user = await supabase.auth.getUser()
+			let uuid = user.data.user.id
+
+			const formData = await request.formData()
+			let budgetAmount = formData.get('budgetAmount')
+			let budgetType = formData.get('budgetType')
+			let expenses = formData.get("expenses")
+			let investments = formData.get("investments")
+			let bills = formData.get('bills')
+			let other = formData.get("other")
+
+			const { data } = await supabase
+				.from('budgetAllocations')
+				.upsert({ user: uuid, budgetAmount: budgetAmount, type: budgetType, Expenses: expenses, Investment: investments, Bills: bills, Other: other })
+
+		} catch (error) { }
+
+
+	},
+	viewBudget: async ({ request, locals: { supabase } }) => {
+		console.log("hello")
 	}
 }
 
@@ -104,8 +127,12 @@ export const actions: Actions = {
 export const load = async ({ locals }) => {
 	const user = await locals.supabase.auth.getUser()
 	let uuid = user.data.user.id
-	console.log(uuid)
+	let day = new Date
+	const monthStart = startOfMonth(day).toUTCString()
+	const monthEnd = endOfMonth(day).toUTCString()
 
+	console.log(monthStart,monthEnd)
+	
 	const { data: moneyIn, error: error1 } = await locals.supabase
 		.from("moneyIn")
 		.select()
@@ -118,5 +145,19 @@ export const load = async ({ locals }) => {
 	if (error1 || error2) {
 		return { success: false, users: null }
 	}
-	return { success: true, data: [moneyIn, moneyOut] ?? 0 }
+
+	const { data: budgetAllocations, error: error3 } = await locals.supabase
+		.from('budgetAllocations')
+		.select()
+		.eq('user', uuid)
+
+	console.log(budgetAllocations)
+	if (error1 || error2) {
+		return { success: false, users: null }
+	}
+	
+	
+
+	
+	return { success: true, data: [moneyIn, moneyOut, budgetAllocations]}
 };

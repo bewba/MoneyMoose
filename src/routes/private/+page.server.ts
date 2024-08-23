@@ -112,7 +112,7 @@ export const actions: Actions = {
 
 			const { data } = await supabase
 				.from('budgetAllocations')
-				.upsert({ user: uuid, budgetAmount: budgetAmount, type: budgetType, expense: expenses, investment: investments, bills: bills, other: other })
+				.upsert({ user: uuid, budgetAmount: budgetAmount, type: budgetType, Expenses: expenses, Investments: investments, Bills: bills, Other: other })
 
 		} catch (error) { }
 
@@ -137,11 +137,19 @@ export const load = async ({ locals }) => {
 	if (error1 || error2) {
 		return { success: false, users: null }
 	}
+
+	const { data: budgetAllocations, error: error3 } = await locals.supabase
+		.from('budgetAllocations')
+		.select()
+		.eq('user', uuid)
+	if (error1 || error2) {
+		return { success: false, users: null }
+	}
 	
 	let day = new Date
 	const start = startOfWeek(day)
 	const end = endOfWeek(day)
 
 	
-	return { success: true, data: [moneyIn, moneyOut] ?? 0 }
+	return { success: true, data: [moneyIn, moneyOut, budgetAllocations]}
 };

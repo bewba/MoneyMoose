@@ -8,6 +8,8 @@
 	import IncomeChart from './piechart/IncomeChart.svelte';
 	import { isMoneyInOverlayOpen, isMoneyOutOverlayOpen, isBudgetAllocationOverlayOpen } from './store/Popupstore';
 	import BudgetAllocation from "./set_budget/setBudget.svelte"
+	import Barchart from './barchart/barchart.svelte';
+	
 	// @ts-ignore
 	export let data;
 	
@@ -28,6 +30,7 @@
 	let unsub3 = isBudgetAllocationOverlayOpen.subscribe((someVal3) => {
 		isBudgetAllocationOpen = someVal3
 	})
+
 
 	let totalValue = 0;
 	let income = 0;
@@ -83,4 +86,8 @@
 		{/if}
 	</div>
 	{/if}
+	<div class="p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex justify-center">
+		<Barchart expectedData={data.data[2]} actualData = {data.data[1]}/>
+	</div>
 </div>
+

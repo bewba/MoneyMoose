@@ -1,41 +1,94 @@
 <script>
 	import { elements } from 'chart.js';
-	import { Chart, Card, A, Button, Dropdown, DropdownItem } from 'flowbite-svelte';
-	import { ArrowUpOutline, ChevronDownOutline, ChevronRightOutline } from 'flowbite-svelte-icons';
+	import { Chart, Card, Button, Dropdown, DropdownItem, Radio } from 'flowbite-svelte';
+	import { ChevronDownOutline } from 'flowbite-svelte-icons';
+	import { startOfWeek, endOfWeek, startOfMonth, endOfMonth, isBefore, isAfter } from 'date-fns';
 
 	export let expectedData;
 	export let actualData;
 
+	let weeklySpending = 0;
 	let chartData = [];
+	
+	// Initialize the group1 and group2 variables
+	let group1 = 0;
+	$: group2 = group1 === 0 ? 'Weekly Spending' : 'Monthly Spending';
 
-	for (const [label, amount] of Object.entries(expectedData[0]).slice(3, 7)) {
-		let chartDict = {
-			x: '',
-			y: 0,
-			fillColor: '', // Placeholder for dynamic color
-			goals: [
-				{ name: 'Expected', value: 14, strokeWidth: 5, strokeHeight: 22, strokeColor: '#775DD0' }
-			]
-		};
-		chartDict.x = label;
-		actualData.forEach((element) => {
-			if (element.category == label) {
-				chartDict.y += element.amount;
+	console.log(expectedData)
+
+	$: budget = expectedData[group1].budgetAmount;
+
+
+	$: {
+		if (group1 == 1) {
+			let day = new Date()
+			let start = startOfMonth(day)
+			let end = endOfMonth(day)
+			chartData = [];
+			weeklySpending = 0;
+			for (const [label, amount] of Object.entries(expectedData[group1]).slice(3, 7)) {
+				let chartDict = {
+					x: '',
+					y: 0,
+					fillColor: '', // Placeholder for dynamic color
+					goals: [
+						{ name: 'Expected', value: 0, strokeWidth: 5, strokeHeight: 22, strokeColor: '#775DD0' }
+					]
+				};
+				chartDict.x = label;
+				actualData.forEach((element) => {
+					if (element.category == label && isBefore(element.created_at, end) && isAfter(element.created_at,start)) {
+						chartDict.y += element.amount;
+						weeklySpending += element.amount;
+					}
+				});
+				chartDict.goals[0].value = amount;
+
+				// Determine color based on the comparison with the marker
+				if (chartDict.y <= amount) {
+					chartDict.fillColor = '#00E396'; // Green
+				} else {
+					chartDict.fillColor = '#FF0000'; // Red
+				}
+
+				chartData.push(chartDict);
 			}
-		});
-		chartDict.goals[0].value = amount;
-
-		// Determine color based on the comparison with the marker
-		if (chartDict.y <= amount) {
-			chartDict.fillColor = '#00E396'; // Green
 		} else {
-			chartDict.fillColor = '#FF0000'; // Red
+			let day = new Date()
+			let start = startOfWeek(day)
+			let end = endOfWeek(day)
+			chartData = [];
+			weeklySpending = 0;
+			for (const [label, amount] of Object.entries(expectedData[group1]).slice(3, 7)) {
+				let chartDict = {
+					x: '',
+					y: 0,
+					fillColor: '', // Placeholder for dynamic color
+					goals: [
+						{ name: 'Expected', value: 0, strokeWidth: 5, strokeHeight: 22, strokeColor: '#775DD0' }
+					]
+				};
+				chartDict.x = label;
+				actualData.forEach((element) => {
+					if (element.category == label && isBefore(element.created_at, end) && isAfter(element.created_at,start)) {
+						chartDict.y += element.amount;
+						weeklySpending += element.amount;
+					}
+				});
+				chartDict.goals[0].value = amount;
+
+				// Determine color based on the comparison with the marker
+				if (chartDict.y <= amount) {
+					chartDict.fillColor = '#00E396'; // Green
+				} else {
+					chartDict.fillColor = '#FF0000'; // Red
+				}
+
+				chartData.push(chartDict);
+			}
 		}
-
-		chartData.push(chartDict);
 	}
-
-	let seriesData = chartData;
+	$: seriesData = chartData;
 
 	$: options = {
 		series: [
@@ -45,6 +98,7 @@
 			}
 		],
 		chart: {
+			width: 1000,
 			height: 350,
 			type: 'bar'
 		},
@@ -52,7 +106,6 @@
 			bar: {
 				horizontal: true,
 				colors: {
-					
 					backgroundBarOpacity: 1,
 					distributed: true // Enable distributed colors for individual bars
 				}
@@ -68,7 +121,7 @@
 				return val;
 			}
 		},
-		colors: seriesData.map(data => data.fillColor), // Use dynamic colors
+		colors: seriesData.map((data) => data.fillColor), // Use dynamic colors
 		xaxis: {
 			labels: {
 				show: true,
@@ -105,37 +158,61 @@
 			}
 		}
 	};
+
+	$: moneyLeft = budget - weeklySpending;
 </script>
 
-<Card>
+<div>
 	<div class="flex justify-between border-gray-200 border-b dark:border-gray-700 pb-3">
 		<dl>
-			<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Profit</dt>
-			<dd class="leading-none text-3xl font-bold text-gray-900 dark:text-white">₱5,405</dd>
+			<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Money Left</dt>
+			<dd class="leading-none text-3xl font-bold text-gray-900 dark:text-white">₱{moneyLeft}</dd>
 		</dl>
 	</div>
 
-	<div class="grid grid-cols-2 py-3">
+	<div class="grid grid-cols-2 py-3 gap-x-8">
+		<!-- Added gap-x-8 for more space between columns -->
 		<dl>
-			<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Income</dt>
-			<dd class="leading-none text-xl font-bold text-green-500 dark:text-green-400">₱23,635</dd>
+			{#if group1 == 0}
+				<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Weekly Budget</dt>
+			{:else}
+				<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Monthly Budget</dt>
+			{/if}
+			<dd class="leading-none text-xl font-bold text-green-500 dark:text-green-400">{budget}</dd>
 		</dl>
-		<dl>
-			<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Expense</dt>
-			<dd class="leading-none text-xl font-bold text-red-600 dark:text-red-500">-₱18,230</dd>
+		<dl class="text-right">
+			{#if group1 == 0}
+				<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Weekly Spending</dt>
+			{:else}
+				<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">
+					Monthly Spending
+				</dt>
+			{/if}
+			<dd class="leading-none text-xl font-bold text-red-600 dark:text-red-500">
+				-{weeklySpending}
+			</dd>
 		</dl>
 	</div>
 
 	<Chart {options} />
-	<div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
-		<div class="flex justify-end pt-5">
-			<A
-				href="/"
-				class="ml-auto uppercase text-sm font-semibold hover:text-primary-700 dark:hover:text-primary-500 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2 hover:no-underline"
-			>
-				Leads Report
-				<ChevronRightOutline class="w-2.5 h-2.5 ms-1.5" />
-			</A>
+
+	<div
+		class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between"
+	>
+		<div class="flex justify-between items-center pt-5">
+			<Button class="dark:bg-gray-700 bg-gray-900 dark:hover:bg-gray-600 hover:bg-gray-700">
+				{group2}<ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" />
+			</Button>
+			<Dropdown class="w-44 p-3 space-y-3 text-sm dark:bg-gray-900 bg-gray-200">
+				<DropdownItem>
+					<Radio color={'white'} name="group1" bind:group={group1} value={0}>Weekly Spending</Radio>
+				</DropdownItem>
+				<hr />
+				<DropdownItem>
+					<Radio color={'white'} name="group1" bind:group={group1} value={1}>Monthly Spending</Radio
+					>
+				</DropdownItem>
+			</Dropdown>
 		</div>
 	</div>
-</Card>
+</div>

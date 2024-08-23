@@ -1,5 +1,5 @@
 import type { Actions } from "../$types"
-import { startOfWeek, endOfWeek } from "date-fns"
+import { startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns"
 
 export const actions: Actions = {
 	moneyin: async ({ request, locals: { supabase } }) => {
@@ -112,11 +112,14 @@ export const actions: Actions = {
 
 			const { data } = await supabase
 				.from('budgetAllocations')
-				.upsert({ user: uuid, budgetAmount: budgetAmount, type: budgetType, Expenses: expenses, Investments: investments, Bills: bills, Other: other })
+				.upsert({ user: uuid, budgetAmount: budgetAmount, type: budgetType, Expenses: expenses, Investment: investments, Bills: bills, Other: other })
 
 		} catch (error) { }
 
 
+	},
+	viewBudget: async ({ request, locals: { supabase } }) => {
+		console.log("hello")
 	}
 }
 
@@ -124,7 +127,12 @@ export const actions: Actions = {
 export const load = async ({ locals }) => {
 	const user = await locals.supabase.auth.getUser()
 	let uuid = user.data.user.id
+	let day = new Date
+	const monthStart = startOfMonth(day).toUTCString()
+	const monthEnd = endOfMonth(day).toUTCString()
 
+	console.log(monthStart,monthEnd)
+	
 	const { data: moneyIn, error: error1 } = await locals.supabase
 		.from("moneyIn")
 		.select()
@@ -142,13 +150,13 @@ export const load = async ({ locals }) => {
 		.from('budgetAllocations')
 		.select()
 		.eq('user', uuid)
+
+	console.log(budgetAllocations)
 	if (error1 || error2) {
 		return { success: false, users: null }
 	}
 	
-	let day = new Date
-	const start = startOfWeek(day)
-	const end = endOfWeek(day)
+	
 
 	
 	return { success: true, data: [moneyIn, moneyOut, budgetAllocations]}

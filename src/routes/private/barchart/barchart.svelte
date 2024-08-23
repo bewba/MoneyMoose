@@ -65,7 +65,7 @@
 					y: 0,
 					fillColor: '', // Placeholder for dynamic color
 					goals: [
-						{ name: 'Expected', value: 0, strokeWidth: 5, strokeHeight: 22, strokeColor: '#775DD0' }
+						{ name: 'Expected', value: 0, strokeWidth: 22, strokeHeight: 5, strokeColor: '#775DD0' }
 					]
 				};
 				chartDict.x = label;
@@ -98,13 +98,13 @@
 			}
 		],
 		chart: {
-			width: 1000,
-			height: 350,
-			type: 'bar'
-		},
+        width: 1000,
+        height: 350,
+        type: 'bar'
+    },
 		plotOptions: {
 			bar: {
-				horizontal: true,
+				horizontal: false,
 				colors: {
 					backgroundBarOpacity: 1,
 					distributed: true // Enable distributed colors for individual bars
@@ -156,54 +156,95 @@
 				fontSize: '14px',
 				fontFamily: 'Inter, sans-serif'
 			}
-		}
-	};
+		},  responsive: [
+        {
+            breakpoint: 1000,
+            options: {
+                plotOptions: {
+                    bar: {
+                        horizontal: false
+                    }
+                },
+                legend: {
+                    position: "bottom"
+                },
+                chart: {
+                    height: '300px',
+					width: '300px'
+                }
+            }
+        }
+    ]
+};
 
 	$: moneyLeft = budget - weeklySpending;
 </script>
 
-<div>
+<div class="p-4 md:p-8">
+	<!-- Money Left Section -->
 	<div class="flex justify-between border-gray-200 border-b dark:border-gray-700 pb-3">
 		<dl>
-			<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Money Left</dt>
-			<dd class="leading-none text-3xl font-bold text-gray-900 dark:text-white">₱{moneyLeft}</dd>
+			<dt class="text-sm md:text-base font-normal text-gray-500 dark:text-gray-400 pb-1">
+				Money Left
+			</dt>
+			<dd class="leading-none text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+				₱{moneyLeft}
+			</dd>
 		</dl>
 	</div>
 
-	<div class="grid grid-cols-2 py-3 gap-x-8">
-		<!-- Added gap-x-8 for more space between columns -->
+	<!-- Budget and Spending Section -->
+	<div class="grid grid-cols-1 md:grid-cols-2 py-3 gap-y-4 md:gap-x-8">
 		<dl>
 			{#if group1 == 0}
-				<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Weekly Budget</dt>
+				<dt class="text-sm md:text-base font-normal text-gray-500 dark:text-gray-400 pb-1">
+					Weekly Budget
+				</dt>
 			{:else}
-				<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Monthly Budget</dt>
+				<dt class="text-sm md:text-base font-normal text-gray-500 dark:text-gray-400 pb-1">
+					Monthly Budget
+				</dt>
 			{/if}
-			<dd class="leading-none text-xl font-bold text-green-500 dark:text-green-400">{budget}</dd>
+			<dd class="leading-none text-lg md:text-xl font-bold text-green-500 dark:text-green-400">
+				{budget}
+			</dd>
 		</dl>
-		<dl class="text-right">
+		<dl class="text-left md:text-right">
 			{#if group1 == 0}
-				<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Weekly Spending</dt>
+				<dt class="text-sm md:text-base font-normal text-gray-500 dark:text-gray-400 pb-1">
+					Weekly Spending
+				</dt>
 			{:else}
-				<dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">
+				<dt class="text-sm md:text-base font-normal text-gray-500 dark:text-gray-400 pb-1">
 					Monthly Spending
 				</dt>
 			{/if}
-			<dd class="leading-none text-xl font-bold text-red-600 dark:text-red-500">
+			<dd class="leading-none text-lg md:text-xl font-bold text-red-600 dark:text-red-500">
 				-{weeklySpending}
 			</dd>
 		</dl>
 	</div>
 
-	<Chart {options} />
+	<!-- Chart Section -->
+	<div class="relative w-full overflow-x-auto">
+		<div class="aspect-w-16 aspect-h-9">
+			<Chart {options} class="w-full h-full" />
+		</div>
+	</div>
 
+	<!-- Dropdown Section -->
 	<div
-		class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between"
+		class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between mt-4"
 	>
-		<div class="flex justify-between items-center pt-5">
-			<Button class="dark:bg-gray-700 bg-gray-900 dark:hover:bg-gray-600 hover:bg-gray-700">
+		<div class="flex flex-col md:flex-row justify-between items-center pt-5">
+			<Button
+				class="dark:bg-gray-700 bg-gray-900 dark:hover:bg-gray-600 hover:bg-gray-700 w-full md:w-auto"
+			>
 				{group2}<ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" />
 			</Button>
-			<Dropdown class="w-44 p-3 space-y-3 text-sm dark:bg-gray-900 bg-gray-200">
+			<Dropdown
+				class="w-full md:w-44 mt-3 md:mt-0 p-3 space-y-3 text-sm dark:bg-gray-900 bg-gray-200"
+			>
 				<DropdownItem>
 					<Radio color={'white'} name="group1" bind:group={group1} value={0}>Weekly Spending</Radio>
 				</DropdownItem>

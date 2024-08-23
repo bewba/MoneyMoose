@@ -77,14 +77,19 @@
 		</div>
 	</div>
 	{#if income > 0 || expense > 0}
-	<div class="p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex">
+	<div class="p-4 md:p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex flex-col md:flex-row gap-4">
 		{#if income > 0}
-			<IncomeChart incomeData={data.data[0]}/>
+			<div class="w-full md:w-1/2">
+				<IncomeChart incomeData={data.data[0]}/>
+			</div>
 		{/if}
 		{#if expense > 0}
-			<Chart expenseData={data.data[1]}/>
+			<div class="w-full md:w-1/2">
+				<Chart expenseData={data.data[1]}/>
+			</div>
 		{/if}
 	</div>
+	
 	{/if}
 	<div class="p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex justify-center">
 		<Barchart expectedData={data.data[2]} actualData = {data.data[1]}/>

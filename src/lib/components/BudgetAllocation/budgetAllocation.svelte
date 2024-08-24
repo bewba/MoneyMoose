@@ -1,7 +1,6 @@
 <script>
-    import MoneyIconLight from "$lib/components/icons/cash-out-lightmode.svg"
-    import MoneyIconDark from "$lib/components/icons/cash-out-darkmode.svg"
-    import InstagramDark from "$lib/components/icons/instagram-dark.svg"
+    import budgetAllocationLight from "$lib/components/icons/budget-allocation-lightmode.svg"
+        import budgetAllocationDark from "$lib/components/icons/budget-allocation-darkmode.svg"
     import { onMount } from 'svelte';
   
     let isDarkMode = false;
@@ -26,8 +25,8 @@
   </script>
   
   {#if isDarkMode}
-    <img src={MoneyIconDark} alt="moneyicon" class="w-6 h-6">
+    <img src={budgetAllocationDark} alt="moneyicon" class="w-6 h-6">
   {:else}
-    <img src={MoneyIconLight} alt="moneyicon" class="w-6 h-6">
+    <img src={budgetAllocationLight} alt="moneyicon" class="w-6 h-6">
   {/if}
   

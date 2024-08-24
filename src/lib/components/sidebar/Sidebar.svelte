@@ -3,6 +3,7 @@
 	import { isMoneyOutOverlayOpen } from '../../../routes/private/store/Popupstore';
 	import MoneyOutIcon from '../MoneyOutIcon/MoneyIcon.svelte';
 	import MoneyInIcon from '../MoneyInIcon/MoneyInIcon.svelte';
+	import BudgetAllocation from '../BudgetAllocation/budgetAllocation.svelte';
 
 	const isMoneyInOverlayOpenFun = () => {
 		const unsub = isMoneyInOverlayOpen.subscribe((data) => {});
@@ -53,7 +54,7 @@
 					class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group w-full"
 					on:click={isBudgetAllocationOverlayOpenFun}
 				>
-					<MoneyOutIcon />
+					<BudgetAllocation />
 					<span class="ms-3">Budget Allocation</span>
 				</button>
 			</li>

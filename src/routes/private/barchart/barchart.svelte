@@ -65,7 +65,7 @@
 					y: 0,
 					fillColor: '', // Placeholder for dynamic color
 					goals: [
-						{ name: 'Expected', value: 0, strokeWidth: 5, strokeHeight: 22, strokeColor: '#775DD0' }
+						{ name: 'Expected', value: 0, strokeWidth: 22, strokeHeight: 5, strokeColor: '#775DD0' }
 					]
 				};
 				chartDict.x = label;
@@ -128,9 +128,6 @@
 				style: {
 					fontFamily: 'Inter, sans-serif',
 					cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
-				},
-				formatter: function (value) {
-					return '₱' + value;
 				}
 			}
 		},
@@ -140,6 +137,9 @@
 				style: {
 					fontFamily: 'Inter, sans-serif',
 					cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+				},
+				formatter: function (value) {
+					return '₱ ' + value;
 				}
 			}
 		},
@@ -206,7 +206,7 @@
 				</dt>
 			{/if}
 			<dd class="leading-none text-lg md:text-xl font-bold text-green-500 dark:text-green-400">
-				{budget}
+				₱{budget}
 			</dd>
 		</dl>
 		<dl class="text-left md:text-right">
@@ -220,7 +220,7 @@
 				</dt>
 			{/if}
 			<dd class="leading-none text-lg md:text-xl font-bold text-red-600 dark:text-red-500">
-				-{weeklySpending}
+				-₱{weeklySpending}
 			</dd>
 		</dl>
 	</div>

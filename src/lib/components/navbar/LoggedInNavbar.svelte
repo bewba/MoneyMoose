@@ -19,6 +19,7 @@
       </div>
       <div class="flex items-center">
           <div class="flex items-center ms-3">
+            <a href="/private/" class=" cursor-pointer block py-2 px-3 text-black rounded md:bg-transparent md:text-black md:p-0 dark:text-white md:dark:text-white" aria-current="page">Home</a>
               <DarkMode class = "mx-2"/>
             <div>
               <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">

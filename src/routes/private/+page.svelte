@@ -1,4 +1,6 @@
 <script lang>
+// @ts-nocheck
+
 	import LoggedInNavbar from '$lib/components/navbar/LoggedInNavbar.svelte';
 	import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
 	import { onMount } from 'svelte';

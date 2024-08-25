@@ -131,8 +131,6 @@ export const load = async ({ locals }) => {
 	const monthStart = startOfMonth(day).toUTCString()
 	const monthEnd = endOfMonth(day).toUTCString()
 
-	console.log(monthStart,monthEnd)
-	
 	const { data: moneyIn, error: error1 } = await locals.supabase
 		.from("moneyIn")
 		.select()
@@ -151,7 +149,6 @@ export const load = async ({ locals }) => {
 		.select()
 		.eq('user', uuid)
 
-	console.log(budgetAllocations)
 	if (error1 || error2) {
 		return { success: false, users: null }
 	}

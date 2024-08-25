@@ -14,8 +14,6 @@
 	let group1 = 0;
 	$: group2 = group1 === 0 ? 'Weekly Spending' : 'Monthly Spending';
 
-	console.log(expectedData)
-
 	$: budget = expectedData[group1].budgetAmount;
 
 
@@ -32,7 +30,7 @@
 					y: 0,
 					fillColor: '', // Placeholder for dynamic color
 					goals: [
-						{ name: 'Expected', value: 0, strokeWidth: 5, strokeHeight: 22, strokeColor: '#775DD0' }
+						{ name: 'Expected', value: 0, strokeWidth: 22, strokeHeight: 5, strokeColor: '#775DD0' }
 					]
 				};
 				chartDict.x = label;

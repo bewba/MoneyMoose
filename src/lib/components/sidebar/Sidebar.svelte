@@ -58,6 +58,15 @@
 					<span class="ms-3">Budget Allocation</span>
 				</button>
 			</li>
+			<li>
+				<a
+					class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group w-full"
+					href = "/private/viewTransactions/"
+				>
+					<BudgetAllocation />
+					<span class="ms-3">View Past Transactions</span>
+				</a>
+			</li>
 			<!--
 			<li>
 				<a

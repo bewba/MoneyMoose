@@ -1,57 +1,44 @@
 import { redirect } from "@sveltejs/kit";
-import type { Actions } from "../../$types";
-import { startOfYear, endOfYear } from "date-fns";
-
+import type { Actions, PageServerLoad } from "../../$types";
 export const actions: Actions = {};
 
-export const load = async ({ params, locals }) => {
-    try{const user = await locals.supabase.auth.getUser();
-    const myPage = Number(params.page)
-    // console.log(myPage)
-    const uuid = user.data.user?.id;
-    // console.log("hello")
+export const load: PageServerLoad = async ({ params, locals }) => {
+    try {
+        const user = await locals.supabase.auth.getUser();
+        const myPage = Number(params.page);
 
+        if (!user.data.user?.id) {
+            return { success: false, error: "User not authenticated" };
+        }
 
+        const uuid = user.data.user.id;
+        const pageSize = 20;
+        const offset = (myPage - 1) * pageSize;
 
-    if (!uuid) {
-        return { success: false, error: "User not authenticated" };
-    }
-
-    const day = new Date();
-
-    const yearStart = startOfYear(day).toISOString();
-    const yearEnd = endOfYear(day).toISOString();
-
-    const { data: yearlyTransactions, error: error1 } = await locals.supabase
-        .from("moneyOut")
-        .select()
-        .limit(2)
-        .eq('user', uuid)
-        .gte('created_at', yearStart) // Filter from start of the month
-        .lte('created_at', yearEnd);  // Filter up to the end of the month
-        
-
-    if (error1) {
-        console.error("Supabase query error:", error1.message);
-        return { success: false, error: error1.message };
-
-    }
-
-    const { count, error: error2 } = await locals.supabase
-            .from('moneyOut')
-            .select('id', { count: 'exact' })  // We need to select some field to count the rows
+        const { data: transactions, error: error1 } = await locals.supabase
+            .from("moneyOut")
+            .select()
             .eq('user', uuid)
-            .gte('created_at', yearStart)
-            .lte('created_at', yearEnd);
+            .range(offset, offset + pageSize - 1);
+
+        if (error1) {
+            console.error("Supabase query error:", error1.message);
+            return { success: false, error: error1.message };
+        }
+
+        const { count, error: error2 } = await locals.supabase
+            .from('moneyOut')
+            .select('id', { count: 'exact' })
+            .eq('user', uuid);
 
         if (error2) {
+            console.error("Supabase count error:", error2.message);
             return { success: false, error: error2.message };
         }
 
-    return { success: true, data: yearlyTransactions, totalCount: count };}
-    catch(error){
-        console.log(error)
-        redirect(303, "/private")
+        return { success: true, data: transactions, totalCount: count };
+    } catch (error) {
+        console.error("Error in server load function:", error);
+        throw redirect(303, "/private");
     }
-    
 };

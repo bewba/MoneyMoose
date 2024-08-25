@@ -2,23 +2,56 @@
     import { page } from "$app/stores";
     import { redirect } from "@sveltejs/kit";
     import LoggedInNavbar from "$lib/components/navbar/LoggedInNavbar.svelte";
-    export let data
+    export let data;
 
     if (!data || typeof data !== 'object') {
         console.error("Data is not an object or is missing");
         throw redirect(302, '/private');
     }
-    const pageSize = 2;
-    let transactionList = data.data;
-    $: totalItems = data.totalCount;
 
+    const pageSize = 20;
+    $: transactionList = data.data;
+    $: totalItems = data.totalCount;
     $: totalPages = Math.ceil(totalItems / pageSize);
-    $: currPage = Number($page.params.page) - 1
-    $:{console.log(currPage)}
-    if (!Array.isArray(transactionList)) {
-        throw redirect(302, '/private');
+    $: currPage = isNaN(Number($page.params.page)) ? 0 : Number($page.params.page) - 1;
+
+    // Pagination logic
+    const maxVisiblePages = 3;  // Number of pages shown before the "..." (excluding first and last)
+    $: paginationLinks = generatePaginationLinks(currPage, totalPages, maxVisiblePages);
+
+    function generatePaginationLinks(currPage, totalPages, maxVisiblePages) {
+        let pages = [];
+
+        if (totalPages <= maxVisiblePages + 2) {
+            // Show all pages if totalPages is small enough
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(i);
+            }
+        } else {
+            // Always show the first page
+            pages.push(1);
+
+            if (currPage > maxVisiblePages) {
+                pages.push('...');
+            }
+
+            let start = Math.max(2, currPage);
+            let end = Math.min(totalPages - 1, currPage + maxVisiblePages - 1);
+
+            for (let i = start; i <= end; i++) {
+                pages.push(i);
+            }
+
+            if (end < totalPages - 1) {
+                pages.push('...');
+            }
+
+            // Always show the last page
+            pages.push(totalPages);
+        }
+
+        return pages;
     }
-    console.log("niga")
 </script>
 
 <div>
@@ -41,13 +74,17 @@
     </div>
     <div class="flex justify-center py-4">
         <nav class="flex space-x-2">
-            {#each Array(totalPages) as _, idx}
-                <a
-                    href={`/private/viewTransactions/${idx + 1}`}
-                    class={`px-4 py-2 border rounded-md ${idx === currPage ? 'bg-blue-500 text-white' : 'bg-white text-blue-500 hover:bg-blue-100 dark:bg-gray-700 dark:text-blue-400 dark:hover:bg-gray-600'}`}
-                >
-                    {idx + 1}
-                </a>
+            {#each paginationLinks as pageNum, idx}
+                {#if pageNum === '...'}
+                    <span class="px-4 py-2">...</span>
+                {:else}
+                    <a
+                        href={`/private/viewTransactions/${pageNum}`}
+                        class={`px-4 py-2 border rounded-md ${pageNum - 1 === currPage ? 'bg-blue-500 text-white' : 'bg-white text-blue-500 hover:bg-blue-100 dark:bg-gray-700 dark:text-blue-400 dark:hover:bg-gray-600'}`}
+                    >
+                        {pageNum}
+                    </a>
+                {/if}
             {/each}
         </nav>
     </div>

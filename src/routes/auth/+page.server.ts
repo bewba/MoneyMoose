@@ -8,11 +8,12 @@ export const actions: Actions = {
   signup: async ({ request, locals: { supabase } }) => {
 
     try {
+      console.log("OASF")
       const user = await supabase.auth.getUser()
-      if (user) {
-        redirect(302, "../private/")
+      if(user.data){
+        console.log(user.data)
       }
-    } catch(error){}
+    } catch (error) { }
 
     let myEmail = null
     const formData = await request.formData()

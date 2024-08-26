@@ -10,7 +10,7 @@
       <div class="container mx-auto text-center">
         <h1 class="text-4xl md:text-6xl font-bold mb-4 dark:text-white text-gray-900">Manage Your Finances Effortlessly</h1>
         <p class="text-xl md:text-2xl mb-8 dark:text-gray-400 text-gray-700">Take control of your financial future with our easy-to-use app.</p>
-        <a href="#signup" class="bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-200 px-8 py-4 rounded-full font-bold hover:bg-gray-200 dark:hover:bg-gray-600">Get Started</a>
+        <a href="/auth" class="bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-200 px-8 py-4 rounded-full font-bold hover:bg-gray-200 dark:hover:bg-gray-600">Get Started</a>
       </div>
     </section>
     

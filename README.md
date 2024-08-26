@@ -7,8 +7,6 @@ ie: Tracking how much money goes in and out, and basic login
 
 <h3> MoneyMoose is currently looking to incorporate the following features:</h3>
 Logo<br>
-Setting budgets<br>
-Tracking weekly and monthly expenses<br>
 Graphing the weekly and monthly budget allocation<br>
 Personalization<br>
 Data Encryption <br>

@@ -91,7 +91,7 @@
 
             <!-- Allocation -->
             <div class="flex flex-col">
-                <label for="allocation" class="mb-2 font-medium text-gray-700 dark:text-gray-300">Allocation:</label>
+                <label for="allocation" class="mb-2 font-medium text-gray-700 dark:text-gray-300">Notes:</label>
                 <textarea id="allocation" name="allocation" rows="3" class="border border-gray-300 dark:border-gray-600 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"></textarea>
             </div>
 

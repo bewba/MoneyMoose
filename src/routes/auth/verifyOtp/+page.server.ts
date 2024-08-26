@@ -14,7 +14,7 @@ export const actions: Actions = {
       let unsub = storedEmail.subscribe(data => {
         myEmail = data
       })
-
+      unsub()
     } catch (error) {}
    
     try {
@@ -30,6 +30,7 @@ export const actions: Actions = {
     if (iserr) {
       redirect(303, "../error/")
     } else {
+  
       redirect(303, "../../private/")
     }
   }

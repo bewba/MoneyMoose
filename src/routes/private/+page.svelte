@@ -1,4 +1,6 @@
 <script lang>
+// @ts-nocheck
+
 	import LoggedInNavbar from '$lib/components/navbar/LoggedInNavbar.svelte';
 	import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
 	import { onMount } from 'svelte';
@@ -12,6 +14,7 @@
 	
 	// @ts-ignore
 	export let data;
+
 	
 	let isMoneyInOpen = false;
 	let isMoneyOutOpen = false;
@@ -35,11 +38,19 @@
 	let totalValue = 0;
 	let income = 0;
 	let expense = 0;
+	let moneyIn = []
+	let moneyOut = []
 	try {
 		// @ts-ignore
-		let moneyIn = data.data[0];
-		// @ts-ignore
-		let moneyOut = data.data[1];
+		let transaction = data.data[0]
+		transaction.forEach(element => {
+			if(element.type == 0){
+				moneyIn.push(element)
+			} else {
+				moneyOut.push(element)
+			}
+		});
+		
 		for (let i = 0; i < moneyIn.length; i += 1) {
 			income += moneyIn[i].amount;
 		}
@@ -50,6 +61,7 @@
 	} catch (error) {
 		
 	}
+
 	totalValue = income - expense;
 </script>
 
@@ -79,20 +91,20 @@
 	{#if income > 0 || expense > 0}
 	<div class="p-4 md:p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex flex-col md:flex-row gap-4">
 		{#if income > 0}
-			<div class="w-full md:w-1/2">
-				<IncomeChart incomeData={data.data[0]}/>
+			<div class="w-full">
+				<IncomeChart incomeData={moneyIn}/>
 			</div>
 		{/if}
 		{#if expense > 0}
-			<div class="w-full md:w-1/2">
-				<Chart expenseData={data.data[1]}/>
+			<div class="w-full">
+				<Chart expenseData={moneyOut}/>
 			</div>
 		{/if}
 	</div>
 	
 	{/if}
 	<div class="p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex justify-center">
-		<Barchart expectedData={data.data[2]} actualData = {data.data[1]}/>
+		<Barchart expectedData={data.data[1]} actualData = {moneyOut}/>
 	</div>
 </div>
 

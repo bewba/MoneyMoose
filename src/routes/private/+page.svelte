@@ -14,7 +14,7 @@
 	
 	// @ts-ignore
 	export let data;
-	console.log(data.data)
+
 	
 	let isMoneyInOpen = false;
 	let isMoneyOutOpen = false;
@@ -61,7 +61,7 @@
 	} catch (error) {
 		
 	}
-	// console.log(moneyIn, moneyOut)
+
 	totalValue = income - expense;
 </script>
 

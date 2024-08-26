@@ -1,6 +1,27 @@
 import { redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "../../$types";
-export const actions: Actions = {};
+
+export const actions: Actions = {
+    deleteTransaction: async ({ request, locals: { supabase } }) => {
+        const formData = await request.formData();
+        const id = formData.get("id");
+
+        if (!id) {
+            return { error: "Transaction ID is required" };
+        }
+
+        // Logic to delete the transactions
+        try {
+            const res = await supabase
+            .from('transactions')
+            .delete()
+            .eq('id',id); 
+            return { success: true };
+        } catch (error) {
+            return { error: "Failed to delete transaction" };
+        }
+    }
+};
 
 export const load: PageServerLoad = async ({ params, locals }) => {
     try {

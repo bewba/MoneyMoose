@@ -2,18 +2,33 @@ import { redirect } from '@sveltejs/kit'
 import { writable } from 'svelte/store'
 import type { Actions } from './$types'
 import currEmail  from "./store/emailstore"
+import type { PageServerLoad } from './$types';
 
+export const load: PageServerLoad = async ({ locals: { supabase } }) => {
+  try {
+      console.log("OASF");
+      const { data: user, error } = await supabase.auth.getUser();
+      if (user) {
+          console.log(user);
+      } else {
+          console.log("No user data found.");
+      }
+  } catch (error) {
+      console.error("Error fetching user:", error);
+  }
+
+  // If you want to redirect based on user status, you can do it here:
+  if (!user) {
+      throw redirect(303, '/auth/login');
+  }
+
+  return {};
+};
 
 export const actions: Actions = {
   signup: async ({ request, locals: { supabase } }) => {
 
-    try {
-      console.log("OASF")
-      const user = await supabase.auth.getUser()
-      if(user.data){
-        console.log(user.data)
-      }
-    } catch (error) { }
+    
 
     let myEmail = null
     const formData = await request.formData()

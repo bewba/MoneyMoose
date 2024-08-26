@@ -7,7 +7,7 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ locals: { supabase } }) => {
   try {
       const { data: user, error } = await supabase.auth.getUser();
-      if (user) {
+      if (user.user) {
           console.log(user);
       } else {
           console.log("No user data found.");

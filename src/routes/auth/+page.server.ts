@@ -6,7 +6,6 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals: { supabase } }) => {
   try {
-      console.log("OASF");
       const { data: user, error } = await supabase.auth.getUser();
       if (user) {
           console.log(user);
@@ -17,19 +16,12 @@ export const load: PageServerLoad = async ({ locals: { supabase } }) => {
       console.error("Error fetching user:", error);
   }
 
-  // If you want to redirect based on user status, you can do it here:
-  if (!user) {
-      throw redirect(303, '/auth/login');
-  }
 
   return {};
 };
 
 export const actions: Actions = {
   signup: async ({ request, locals: { supabase } }) => {
-
-    
-
     let myEmail = null
     const formData = await request.formData()
     const email = formData.get('email') as string

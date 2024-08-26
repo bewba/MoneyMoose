@@ -91,12 +91,12 @@
 	{#if income > 0 || expense > 0}
 	<div class="p-4 md:p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex flex-col md:flex-row gap-4">
 		{#if income > 0}
-			<div class="w-full md:w-1/2">
+			<div class="w-full">
 				<IncomeChart incomeData={moneyIn}/>
 			</div>
 		{/if}
 		{#if expense > 0}
-			<div class="w-full md:w-1/2">
+			<div class="w-full">
 				<Chart expenseData={moneyOut}/>
 			</div>
 		{/if}

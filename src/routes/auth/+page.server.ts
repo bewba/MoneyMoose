@@ -6,6 +6,14 @@ import currEmail  from "./store/emailstore"
 
 export const actions: Actions = {
   signup: async ({ request, locals: { supabase } }) => {
+
+    try {
+      const user = await supabase.auth.getUser()
+      if (user) {
+        redirect(302, "../private/")
+      }
+    } catch(error){}
+
     let myEmail = null
     const formData = await request.formData()
     const email = formData.get('email') as string

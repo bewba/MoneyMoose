@@ -16,7 +16,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
         const offset = (myPage - 1) * pageSize;
 
         const { data: transactions, error: error1 } = await locals.supabase
-            .from("moneyOut")
+            .from("transactions")
             .select()
             .eq('user', uuid)
             .range(offset, offset + pageSize - 1);
@@ -27,7 +27,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
         }
 
         const { count, error: error2 } = await locals.supabase
-            .from('moneyOut')
+            .from('transactions')
             .select('id', { count: 'exact' })
             .eq('user', uuid);
 

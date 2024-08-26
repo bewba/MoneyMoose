@@ -11,6 +11,7 @@
 
     const pageSize = 20;
     $: transactionList = data.data;
+    console.log(data.data)
     $: totalItems = data.totalCount;
     $: totalPages = Math.ceil(totalItems / pageSize);
     $: currPage = isNaN(Number($page.params.page)) ? 0 : Number($page.params.page) - 1;

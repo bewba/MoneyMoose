@@ -8,7 +8,7 @@ export const actions: Actions = {
 			let amount = formData.get('amount')
 			let allocation = formData.get('allocation')
 			let category = formData.get('category')
-
+			let type = 0
 			if (amount > 0) {
 
 				try {
@@ -20,12 +20,12 @@ export const actions: Actions = {
 
 				if (allocation) {
 					const { error } = await supabase
-						.from('moneyIn')
-						.insert({ userId: uuid, amount: amount, allocation: allocation, category: category })
+						.from('transactions')
+						.insert({ user: uuid, amount: amount, notes: allocation, category: category, type: 0 })
 				} else {
 					const { error } = await supabase
-						.from('moneyIn')
-						.insert({ userId: uuid, amount: amount, category: category })
+						.from('transactions')
+						.insert({ user: uuid, amount: amount, category: category, type: 0})
 				}
 			}
 
@@ -43,12 +43,10 @@ export const actions: Actions = {
 			let amount = formData.get('amount')
 			let category = formData.get('category')
 			let subcategory = formData.get('subcategory')
+			let type = 1
 			let allocation = formData.get('allocation')
 
 			if (amount > 0) {
-
-
-
 				try {
 					allocation = allocation.trim()
 				} catch (error) { }
@@ -56,41 +54,45 @@ export const actions: Actions = {
 				if (category == 'Expenses') {
 					if (allocation) {
 						const { error } = await supabase
-							.from('moneyOut')
+							.from('transactions')
 							.insert({
 								user: uuid,
 								amount: amount,
 								category: category,
 								subcategory: subcategory,
-								allocation: allocation
+								notes: allocation,
+								type: 1
 							})
 					} else {
 						const { error } = await supabase
-							.from('moneyOut')
+							.from('transactions')
 							.insert({
 								user: uuid,
 								amount: amount,
 								category: category,
-								subcategory: subcategory
+								subcategory: subcategory,
+								type: 1
 							})
 					}
 				} else {
 					if (allocation) {
 						const { error } = await supabase
-							.from('moneyOut')
+							.from('transactions')
 							.insert({
 								user: uuid,
 								amount: amount,
 								category: category,
-								allocation: allocation
+								notes: allocation,
+								type: 1
 							})
 					} else {
 						const { error } = await supabase
-							.from('moneyOut')
+							.from('transactions')
 							.insert({
 								user: uuid,
 								amount: amount,
 								category: category,
+								type: 1
 							})
 					}
 				}
@@ -128,23 +130,15 @@ export const load = async ({ locals }) => {
 	const user = await locals.supabase.auth.getUser()
 	let uuid = user.data.user.id
 	let day = new Date
-	const monthStart = startOfMonth(day).toUTCString()
-	const monthEnd = endOfMonth(day).toUTCString()
+	// const monthStart = startOfMonth(day).toUTCString()
+	// const monthEnd = endOfMonth(day).toUTCString()
 
-	const { data: moneyIn, error: error1 } = await locals.supabase
-		.from("moneyIn")
-		.select()
-		.eq('userId', uuid)
-
-	const { data: moneyOut, error: error2 } = await locals.supabase
-		.from('moneyOut')
+	const { data: transactions, error: error1 } = await locals.supabase
+		.from("transactions")
 		.select()
 		.eq('user', uuid)
-	if (error1 || error2) {
-		return { success: false, users: null }
-	}
 
-	const { data: budgetAllocations, error: error3 } = await locals.supabase
+	const { data: budgetAllocations, error: error2 } = await locals.supabase
 		.from('budgetAllocations')
 		.select()
 		.eq('user', uuid)
@@ -156,5 +150,5 @@ export const load = async ({ locals }) => {
 	
 
 	
-	return { success: true, data: [moneyIn, moneyOut, budgetAllocations]}
+	return { success: true, data: [transactions, budgetAllocations]}
 };

@@ -120,9 +120,7 @@ export const actions: Actions = {
 
 
 	},
-	viewBudget: async ({ request, locals: { supabase } }) => {
-		console.log("hello")
-	}
+
 }
 
 
@@ -147,7 +145,7 @@ export const load = async ({ locals }) => {
 		return { success: false, users: null }
 	}
 	
-	
+
 
 	
 	return { success: true, data: [transactions, budgetAllocations]}

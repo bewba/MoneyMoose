@@ -15,6 +15,9 @@
 	// @ts-ignore
 	export let data;
 
+	if(data.data[1].length > 0){
+		console.log('helo')
+	}
 	
 	let isMoneyInOpen = false;
 	let isMoneyOutOpen = false;
@@ -103,8 +106,10 @@
 	</div>
 	
 	{/if}
+	{#if data.data[1].length > 0}
 	<div class="p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex justify-center">
 		<Barchart expectedData={data.data[1]} actualData = {moneyOut}/>
 	</div>
+	{/if}
 </div>
 

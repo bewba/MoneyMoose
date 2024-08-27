@@ -3,39 +3,83 @@
 	import { Chart, Card, Button, Dropdown, DropdownItem, Radio } from 'flowbite-svelte';
 	import { ChevronDownOutline } from 'flowbite-svelte-icons';
 	import { startOfWeek, endOfWeek, startOfMonth, endOfMonth, isBefore, isAfter } from 'date-fns';
-
 	export let expectedData;
 	export let actualData;
+	export let hasWeek
+	export let hasMonth
+	
+	console.log(hasWeek, hasMonth)	
 
+	let showDropdown = 0
 	let weeklySpending = 0;
 	let chartData = [];
+	let typeOfTransaction = 1;
+	let isOpen = false
+	let monthlyBudget;
+	let weeklyBudget;
+
+	if (hasWeek == 1){
+		typeOfTransaction = 0
+	} else if (hasMonth == 1){
+		typeOfTransaction = 1
+	}
+
+	expectedData.forEach(element => {
+		if(element.type == 0 ){
+			weeklyBudget = element
+		} else if (element.type == 1){
+			monthlyBudget = element
+		}
+		
+	});
+
+
+	function getBudget(transactionType, expectedData) {
+		let res = 0;
+		expectedData.forEach(element => {
+			if(element.type == transactionType){
+				res += element.budgetAmount
+			}
+		});
+		console.log(res)
+		return res
+	}
+
 	
-	let group1 = 0;
-	$: group2 = group1 === 0 ? 'Weekly Spending' : 'Monthly Spending';
+	$: group2 = typeOfTransaction === 0 ? 'Weekly Spending' : 'Monthly Spending';
 
-	$: budget = expectedData[group1].budgetAmount;
-
+	$: budget = getBudget(typeOfTransaction, expectedData)
+	
 	$: {
-		if (group1 == 1) {
+		if (typeOfTransaction == 1) {
 			let day = new Date();
 			let start = startOfMonth(day);
 			let end = endOfMonth(day);
 			chartData = [];
 			weeklySpending = 0;
-			for (const [label, amount] of Object.entries(expectedData[group1]).slice(3, 7)) {
+			for (const [label, amount] of Object.entries(monthlyBudget).slice(3, 7)) {
 				let chartDict = {
 					x: '',
 					y: 0,
-					fillColor: '', 
+					fillColor: '',
 					goals: [
 						{ name: 'Expected', value: 0, strokeWidth: 22, strokeHeight: 5, strokeColor: '#775DD0' }
 					]
 				};
 				chartDict.x = label;
 				actualData.forEach((element) => {
-					if (element.category == label && isBefore(element.created_at, end) && isAfter(element.created_at, start)) {
+					if (
+						element.category == label &&
+						isBefore(element.created_at, end) &&
+						isAfter(element.created_at, start)
+					) {
 						chartDict.y += element.amount;
 						weeklySpending += element.amount;
+					}
+					if (element.type == 0) {
+						hasWeek = 1;
+					} else {
+						hasMonth = 1;
 					}
 				});
 				chartDict.goals[0].value = amount;
@@ -50,20 +94,30 @@
 			let end = endOfWeek(day);
 			chartData = [];
 			weeklySpending = 0;
-			for (const [label, amount] of Object.entries(expectedData[group1]).slice(3, 7)) {
+			for (const [label, amount] of Object.entries(weeklyBudget).slice(3, 7)) {
 				let chartDict = {
 					x: '',
 					y: 0,
-					fillColor: '', 
+					fillColor: '',
 					goals: [
 						{ name: 'Expected', value: 0, strokeWidth: 22, strokeHeight: 5, strokeColor: '#775DD0' }
 					]
 				};
 				chartDict.x = label;
 				actualData.forEach((element) => {
-					if (element.category == label && isBefore(element.created_at, end) && isAfter(element.created_at, start)) {
+					if (
+						element.category == label &&
+						isBefore(element.created_at, end) &&
+						isAfter(element.created_at, start)
+					) {
 						chartDict.y += element.amount;
 						weeklySpending += element.amount;
+					}
+
+					if (element.type == 0) {
+						hasWeek = 1;
+					} else {
+						hasMonth = 1;
 					}
 				});
 				chartDict.goals[0].value = amount;
@@ -153,7 +207,13 @@
 						}
 					},
 					legend: {
-						position: "bottom"
+						position: 'bottom',
+						labels: {
+							colors: ['gray', 'gray'],
+							useSeriesColors: false,
+							fontSize: '5px',
+							fontFamily: 'Inter, sans-serif'
+						}
 					},
 					chart: {
 						height: '300px',
@@ -165,6 +225,11 @@
 	};
 
 	$: moneyLeft = (budget - weeklySpending).toFixed(2);
+	
+	if(hasWeek == 1 && hasMonth == 1){
+		console.log("hello")
+		showDropdown = 1
+	}
 </script>
 
 <div class="p-4 md:p-8">
@@ -183,7 +248,7 @@
 	<!-- Budget and Spending Section -->
 	<div class="grid grid-cols-1 md:grid-cols-2 py-3 gap-y-4 md:gap-x-8">
 		<dl>
-			{#if group1 == 0}
+			{#if typeOfTransaction == 0}
 				<dt class="text-sm md:text-base font-normal text-gray-500 dark:text-gray-400 pb-1">
 					Weekly Budget
 				</dt>
@@ -197,7 +262,7 @@
 			</dd>
 		</dl>
 		<dl class="text-left md:text-right">
-			{#if group1 == 0}
+			{#if typeOfTransaction == 0}
 				<dt class="text-sm md:text-base font-normal text-gray-500 dark:text-gray-400 pb-1">
 					Weekly Spending
 				</dt>
@@ -220,20 +285,32 @@
 	</div>
 
 	<!-- Dropdown Section -->
-	<div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between mt-4">
-		<div class="flex flex-col md:flex-row justify-between items-center pt-5">
-			<Button class="dark:bg-gray-700 bg-gray-900 dark:hover:bg-gray-600 hover:bg-gray-700 w-full md:w-auto">
-				{group2}<ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" />
-			</Button>
-			<Dropdown class="w-full md:w-44 mt-3 md:mt-0 p-3 space-y-3 text-sm dark:bg-gray-900 bg-gray-200">
-				<DropdownItem>
-					<Radio color={'white'} name="group1" bind:group={group1} value={0}>Weekly Spending</Radio>
-				</DropdownItem>
-				<hr />
-				<DropdownItem>
-					<Radio color={'white'} name="group1" bind:group={group1} value={1}>Monthly Spending</Radio>
-				</DropdownItem>
-			</Dropdown>
+	{#if showDropdown == 1}
+		<div
+			class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between mt-4"
+		>
+			<div class="flex flex-col md:flex-row justify-between items-center pt-5">
+				<Button
+					class="dark:bg-gray-700 bg-gray-900 dark:hover:bg-gray-600 hover:bg-gray-700 w-full md:w-auto"
+				>
+					{group2}<ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" />
+				</Button>
+				<Dropdown
+					class="w-full md:w-44 mt-3 md:mt-0 p-3 space-y-3 text-sm dark:bg-gray-900 bg-gray-200"
+				>
+					<DropdownItem>
+						<Radio color={'ffffff'} name="group1" bind:group={typeOfTransaction} value={0}
+							>Weekly Spending</Radio
+						>
+					</DropdownItem>
+					<hr />
+					<DropdownItem>
+						<Radio color={'ffffff'} name="group1" bind:group={typeOfTransaction} value={1}
+							>Monthly Spending</Radio
+						>
+					</DropdownItem>
+				</Dropdown>
+			</div>
 		</div>
-	</div>
+	{/if}
 </div>

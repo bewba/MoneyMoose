@@ -14,14 +14,12 @@
 	
 	// @ts-ignore
 	export let data;
-
-	if(data.data[1].length > 0){
-		console.log('helo')
-	}
 	
 	let isMoneyInOpen = false;
 	let isMoneyOutOpen = false;
 	let isBudgetAllocationOpen = false;
+	let hasWeek = 0
+	let hasMonth = 0
 
 	// @ts-ignore
 	let unsub1 = isMoneyInOverlayOpen.subscribe((someVal1) => {
@@ -65,6 +63,16 @@
 		
 	}
 
+	data.data[1].forEach(element => {
+		if(element.type == 0){
+			hasWeek = 1
+		} else {
+			hasMonth = 1
+		}
+	});
+
+	console.log("shs")
+	console.log(hasWeek, hasMonth)
 	totalValue = income - expense;
 </script>
 
@@ -108,7 +116,7 @@
 	{/if}
 	{#if data.data[1].length > 0}
 	<div class="p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex justify-center">
-		<Barchart expectedData={data.data[1]} actualData = {moneyOut}/>
+		<Barchart expectedData={data.data[1]} actualData = {moneyOut} hasWeek = {hasWeek} hasMonth = {hasMonth}/>
 	</div>
 	{/if}
 </div>

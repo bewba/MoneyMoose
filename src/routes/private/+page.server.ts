@@ -112,10 +112,11 @@ export const actions: Actions = {
 			let bills = formData.get('bills')
 			let other = formData.get("other")
 
+			if (expenses >= 0 && budgetAmount >= 0 && investments >= 0 && bills >= 0 && other >= 0){
 			const { data } = await supabase
 				.from('budgetAllocations')
 				.upsert({ user: uuid, budgetAmount: budgetAmount, type: budgetType, Expenses: expenses, Investment: investments, Bills: bills, Other: other })
-
+}
 		} catch (error) { }
 
 

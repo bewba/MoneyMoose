@@ -8,6 +8,7 @@ export const actions: Actions = {
     const formData = await request.formData()
     const email = formData.get('email') as string
 
+    try{
     const { data, error } = await supabase.auth.signInWithOtp({
         email: email,
         options: {
@@ -15,5 +16,10 @@ export const actions: Actions = {
           shouldCreateUser: true,
         },
       });
+    }catch(error){
+      console.log(error)
+    }
+      redirect(302, "../../")
   }
+
 }

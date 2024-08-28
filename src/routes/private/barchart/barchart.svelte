@@ -8,8 +8,6 @@
 	export let hasWeek
 	export let hasMonth
 	
-	console.log(hasWeek, hasMonth)	
-
 	let showDropdown = 0
 	let weeklySpending = 0;
 	let chartData = [];
@@ -41,7 +39,6 @@
 				res += element.budgetAmount
 			}
 		});
-		console.log(res)
 		return res
 	}
 
@@ -227,7 +224,6 @@
 	$: moneyLeft = (budget - weeklySpending).toFixed(2);
 	
 	if(hasWeek == 1 && hasMonth == 1){
-		console.log("hello")
 		showDropdown = 1
 	}
 </script>

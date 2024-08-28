@@ -1,15 +1,17 @@
 <h1>Money Moose</h1>
  
-In its current state, MoneyMoose only has basic functionalities 
-ie: Tracking how much money goes in and out, and basic login 
+In its current state, MoneyMoose is now completely functional, however some features are lacking<br>
 
 <h2>Future updates</h2>
 
 <h3> MoneyMoose is currently looking to incorporate the following features:</h3>
-Logo<br>
+Implement a development database<br>
 Graphing the weekly and monthly budget allocation<br>
+Logo<br>
 Personalization<br>
 Data Encryption <br>
+PDF email report per week and month<br>
+Fix supabase emails<br>
 And more to come<br>
 
 <h3>Deployment URL</h3>

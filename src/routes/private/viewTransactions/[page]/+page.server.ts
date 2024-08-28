@@ -40,6 +40,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
             .from("transactions")
             .select()
             .eq('user', uuid)
+            .order('created_at', { ascending: false })
             .range(offset, offset + pageSize - 1);
 
         if (error1) {
@@ -56,6 +57,8 @@ export const load: PageServerLoad = async ({ params, locals }) => {
             console.error("Supabase count error:", error2.message);
             return { success: false, error: error2.message };
         }
+
+
 
         return { success: true, data: transactions, totalCount: count };
     } catch (error) {

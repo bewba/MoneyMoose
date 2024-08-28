@@ -12,6 +12,8 @@ Personalization<br>
 Data Encryption <br>
 PDF email report per week and month<br>
 Fix supabase emails<br>
+logout<br>
+Jira to manage this thing<br>
 And more to come<br>
 
 <h3>Deployment URL</h3>

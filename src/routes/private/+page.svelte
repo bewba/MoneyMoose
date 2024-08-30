@@ -62,14 +62,14 @@
 	} catch (error) {
 		
 	}
-
-	data.data[1].forEach(element => {
+	
+	try{data.data[1].forEach(element => {
 		if(element.type == 0){
 			hasWeek = 1
 		} else {
 			hasMonth = 1
 		}
-	});
+	});} catch (error) {}
 
 	console.log("shs")
 	console.log(hasWeek, hasMonth)
@@ -114,10 +114,12 @@
 	</div>
 	
 	{/if}
-	{#if data.data[1].length > 0}
-	<div class="p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex justify-center">
-		<Barchart expectedData={data.data[1]} actualData = {moneyOut} hasWeek = {hasWeek} hasMonth = {hasMonth}/>
-	</div>
+	{#if hasWeek || hasMonth}
+		{#if data.data[1].length > 0}
+		<div class="p-6 rounded-lg shadow-lg dark:bg-gray-800 bg-white mt-14 flex justify-center">
+			<Barchart expectedData={data.data[1]} actualData = {moneyOut} hasWeek = {hasWeek} hasMonth = {hasMonth}/>
+		</div>
+		{/if}
 	{/if}
 </div>
 

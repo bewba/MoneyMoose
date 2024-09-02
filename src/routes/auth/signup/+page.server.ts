@@ -19,7 +19,7 @@ export const actions: Actions = {
         },
       });
       if (error) {
-        message = error
+        message = error.code
         iserr = true
       } else {
         message = 'SUCCESS! Check your e-mail for the confirmation link!';
@@ -28,6 +28,11 @@ export const actions: Actions = {
       message = error
     }
     if (iserr) {
+      if (message == "over_email_send_rate_limit"){
+        message = "Too many accounts were created within the hour. Try again later"
+      } else {
+        message = 'An error occured'
+      }
       redirect(302, `../../?message=${encodeURIComponent(message)}&duration=2000&type=2`)
     }
     else {

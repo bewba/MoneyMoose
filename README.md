@@ -2,10 +2,12 @@
  
 In its current state, MoneyMoose is now completely functional, however some features are lacking<br>
 
+<h2>Currently Developing</h2>
+Error Messages
+
 <h2>Future updates</h2>
 
 <h3> MoneyMoose is currently looking to incorporate the following features:</h3>
-Implement a development database<br>
 Graphing the weekly and monthly budget allocation<br>
 Logo<br>
 Personalization<br>

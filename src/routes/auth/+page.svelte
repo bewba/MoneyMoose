@@ -1,5 +1,22 @@
 <script>
 	import Navbar from '$lib/components/navbar/Navbar.svelte';
+	import { onMount } from 'svelte';
+	
+	onMount(() => {
+		console.log('hello')
+        const params = new URLSearchParams(window.location.search);
+        const message = params.get('message');
+        const duration = parseInt(params.get('duration'), 10) || 4000;
+		const type = parseInt(params.get('type'),10)
+        if (message) {
+            triggerToast(type, message, duration);
+
+            // Remove the query parameters after processing to prevent repeated toasts on refresh
+            const url = new URL(window.location);
+            url.search = ''; // Clear the query params
+            window.history.replaceState({}, document.title, url);
+        }
+    });
 </script>
 
 <html class="dark" lang="en">

@@ -1,7 +1,7 @@
 <script>
     import { Toast } from 'flowbite-svelte';
     import { slide } from 'svelte/transition';
-    import { CheckCircleSolid } from 'flowbite-svelte-icons';
+    import { CheckCircleSolid, ExclamationCircleOutline, ExclamationCircleSolid } from 'flowbite-svelte-icons';
     import { toastStore } from '../../../routes/private/store/Toaststore';
     import { tick, onDestroy } from 'svelte';
 
@@ -10,12 +10,15 @@
     let progress = 100;
     let interval;
     let duration = 4000;
+    let type = 1
 
-    const unsubscribe = toastStore.subscribe(({ show, message: msg, duration: dur }) => {
+    const unsubscribe = toastStore.subscribe(({ show, message: msg, duration: dur, type: typ }) => {
         if (show) {
+            console.log(message,duration,type)
             showToast = true;
             message = msg;
             duration = dur;
+            type = typ
             startProgress();
         }
     });
@@ -54,7 +57,11 @@
 {#if showToast}
 <Toast transition={slide} class="mb-4 p-4 rounded-lg shadow-lg bg-white dark:bg-gray-800">
     <div class="flex items-center">
+        {#if type == 1}
         <CheckCircleSolid slot="icon" class="w-6 h-6 text-green-500 mr-3 dark:text-green-400" on:click={closeToast} />
+        {:else if type == 2}
+        <ExclamationCircleSolid slot = 'icon' class="w-6 h-6 text-red-500 mr-3 dark:text-red-400" on:click={closeToast} />
+        {/if}
         <div class="flex-1">
             <h1 class="text-lg font-semibold text-gray-700 mb-2 dark:text-gray-300">{message}</h1>
             <div class="relative mt-2">

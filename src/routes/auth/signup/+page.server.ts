@@ -5,21 +5,34 @@ import type { Actions } from './$types'
 
 export const actions: Actions = {
   signup: async ({ request, locals: { supabase } }) => {
+    let message
+    let iserr = false
     const formData = await request.formData()
     const email = formData.get('email') as string
 
-    try{
-    const { data, error } = await supabase.auth.signInWithOtp({
+    try {
+      const { data, error } = await supabase.auth.signInWithOtp({
         email: email,
         options: {
           // set this to false if you do not want the user to be automatically signed up
           shouldCreateUser: true,
         },
       });
-    }catch(error){
-      console.log(error)
+      if (error) {
+        message = error
+        iserr = true
+      } else {
+        message = 'SUCCESS! Check your e-mail for the confirmation link!';
+      }
+    } catch (error) {
+      message = error
     }
-      redirect(302, "../../")
+    if (iserr) {
+      redirect(302, `../../?message=${encodeURIComponent(message)}&duration=2000&type=2`)
+    }
+    else {
+      redirect(302, `../../?message=${encodeURIComponent(message)}&duration=2000&type=1`)
+    }
   }
 
 }

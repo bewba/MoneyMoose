@@ -2,6 +2,24 @@
   import Navbar from "$lib/components/navbar/Navbar.svelte";
   import Facebook from "$lib/components/Facebook/Facebook.svelte"
   import Instagram from "$lib/components/Instagram/Instagram.svelte"
+  import { onMount } from "svelte";
+  import { triggerToast } from "./private/store/Toaststore";
+  import Footer from "$lib/components/StickyFooter/footer.svelte";
+
+  onMount(() => {
+        const params = new URLSearchParams(window.location.search);
+        const message = params.get('message');
+        const duration = parseInt(params.get('duration'), 10) || 4000;
+		const type = parseInt(params.get('type'),10)
+        if (message) {
+            triggerToast(type, message, duration);
+
+            // Remove the query parameters after processing to prevent repeated toasts on refresh
+            const url = new URL(window.location);
+            url.search = ''; // Clear the query params
+            window.history.replaceState({}, document.title, url);
+        }
+    });
 </script>
 <html class="dark" lang="en">
   <Navbar />  
@@ -98,4 +116,5 @@
         </div>
       </div>
     </footer>
+    <Footer />
 </html>

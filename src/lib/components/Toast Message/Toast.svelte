@@ -14,7 +14,6 @@
 
     const unsubscribe = toastStore.subscribe(({ show, message: msg, duration: dur, type: typ }) => {
         if (show) {
-            console.log(message,duration,type)
             showToast = true;
             message = msg;
             duration = dur;

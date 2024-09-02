@@ -3,7 +3,7 @@
 In its current state, MoneyMoose is now completely functional, however some features are lacking<br>
 
 <h2>Currently Developing</h2>
-Error Messages
+Error Messages through toast messages
 
 <h2>Future updates</h2>
 

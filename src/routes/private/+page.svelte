@@ -76,9 +76,23 @@
 		});
 	} catch (error) {}
 
-	console.log('shs');
-	console.log(hasWeek, hasMonth);
 	totalValue = income - expense;
+
+	onMount(() => {
+		console.log('hello')
+        const params = new URLSearchParams(window.location.search);
+        const message = params.get('message');
+        const duration = parseInt(params.get('duration'), 10) || 4000;
+		const type = parseInt(params.get('type'),10)
+        if (message) {
+            triggerToast(type, message, duration);
+
+            // Remove the query parameters after processing to prevent repeated toasts on refresh
+            const url = new URL(window.location);
+            url.search = ''; // Clear the query params
+            window.history.replaceState({}, document.title, url);
+        }
+    });
 </script>
 
 <LoggedInNavbar />
@@ -91,9 +105,6 @@
 				<h1 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Account Value:</h1>
 				<div class="text-4xl font-bold text-gray-900 dark:text-white">
 					₱ {totalValue.toLocaleString('en-PH', { minimumFractionDigits: 2 })}
-					<button on:click={() => triggerToast(1, 'heil, hitler!', 3000)}>
-						Trigger Toast
-					</button>
 				</div>
 				{#if isMoneyInOpen}
 					<Moneyin />

@@ -8,6 +8,5 @@ export const toastStore = writable({
 });
 
 export function triggerToast(type: number, message: string, duration: number) {
-    console.log("Triggering toast:", { type, message, duration });
     toastStore.set({ show: true, type, message, duration });
 }

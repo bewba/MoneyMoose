@@ -6,11 +6,28 @@
 	import { DarkMode } from 'flowbite-svelte';
 	import Footer from '$lib/components/StickyFooter/footer.svelte';
 	export let data;
+	import { triggerToast } from '../../store/Toaststore';
+	import { onMount } from 'svelte';
 
 	if (!data || typeof data !== 'object') {
 		console.error('Data is not an object or is missing');
 		throw redirect(302, '/private');
 	}
+
+	onMount(() => {
+        const params = new URLSearchParams(window.location.search);
+        const message = params.get('message');
+        const duration = parseInt(params.get('duration'), 10) || 4000;
+		const type = parseInt(params.get('type'),10)
+        if (message) {
+            triggerToast(type, message, duration);
+
+            // Remove the query parameters after processing to prevent repeated toasts on refresh
+            const url = new URL(window.location);
+            url.search = ''; // Clear the query params
+            window.history.replaceState({}, document.title, url);
+        }
+    });
 
 	const pageSize = 20;
 	$: transactionList = data.data;

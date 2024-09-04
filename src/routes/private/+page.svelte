@@ -79,7 +79,6 @@
 	totalValue = income - expense;
 
 	onMount(() => {
-		console.log('hello')
         const params = new URLSearchParams(window.location.search);
         const message = params.get('message');
         const duration = parseInt(params.get('duration'), 10) || 4000;

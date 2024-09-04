@@ -4,8 +4,6 @@ In its current state, MoneyMoose is now completely functional, however some feat
 
 <h2>Currently Developing</h2>
 logout<br>
-improve sidebar layout<br>
-add copyright <br>
 
 <h2>Future updates</h2>
 

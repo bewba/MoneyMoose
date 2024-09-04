@@ -205,8 +205,6 @@ export const load = async ({ locals, url }) => {
 		return { success: false, users: null, toast: { message, duration, type } };
 	}
 
-	console.log(message, duration)
-
 	return {
 		success: true,
 		data: [transactions, budgetAllocations],

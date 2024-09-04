@@ -3,6 +3,8 @@
 	import { redirect } from '@sveltejs/kit';
 	import LoggedInNavbar from '$lib/components/navbar/LoggedInNavbar.svelte';
 	import { invalidate } from '$app/navigation';
+	import { DarkMode } from 'flowbite-svelte';
+	import Footer from '$lib/components/StickyFooter/footer.svelte';
 	export let data;
 
 	if (!data || typeof data !== 'object') {
@@ -54,7 +56,7 @@
 <div>
 	<LoggedInNavbar />
 </div>
-
+<DarkMode class = "hidden"/>
 <div class="bg-gray-400 dark:bg-gray-900 text-gray-700 dark:text-gray-200 min-h-screen pt-16">
 	<div class="container mx-auto text-left py-8">
 		{#if transactionList.length > 0}
@@ -119,3 +121,4 @@
 		</nav>
 	</div>
 </div>
+<Footer />

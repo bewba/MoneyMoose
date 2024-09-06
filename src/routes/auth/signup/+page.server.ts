@@ -33,6 +33,7 @@ export const actions: Actions = {
       } else {
         message = 'An error occured'
       }
+      console.log(iserr)
       redirect(302, `../../?message=${encodeURIComponent(message)}&duration=2000&type=2`)
     }
     else {

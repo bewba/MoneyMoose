@@ -4,7 +4,7 @@ In its current state, MoneyMoose is now completely functional, however some feat
 
 <h2>Currently Developing</h2>
 logout<br>
-
+PDF report <br>
 <h2>Future updates</h2>
 
 <h3> MoneyMoose is currently looking to incorporate the following features:</h3>
@@ -12,7 +12,6 @@ Logo<br>
 Personalization<br>
 Data Encryption <br>
 PDF email report per week and month<br>
-Fix supabase emails<br>
 Jira to manage this thing<br>
 And more to come<br>
 
